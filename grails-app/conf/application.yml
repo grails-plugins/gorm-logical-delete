@@ -86,11 +86,6 @@ endpoints:
         unique-names: true
 
 ---
-hibernate:
-    cache:
-        queries: false
-        use_second_level_cache: false
-        use_query_cache: false
 dataSource:
     pooled: true
     jmxExport: true

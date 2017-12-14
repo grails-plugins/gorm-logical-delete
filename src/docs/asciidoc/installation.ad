@@ -1,4 +1,4 @@
-To add the Hibernate Logical Delete plugin to an application add the following dependency to the dependencies block of your build.gradle:
+To add the GORM Logical Delete plugin to an application add the following dependency to the dependencies block of your build.gradle:
 
 [source,groovy,subs="attributes"]
-compile "org.grails.plugins:hibernate-logical-delete:{version}"
+compile "org.grails.plugins:gorm-logical-delete:{version}"

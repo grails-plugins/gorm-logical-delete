@@ -1,1 +1,1 @@
-The Hibernate Logical Delete plugin provides support for utilizing logical deletes for Hibernate managed GORM entities in a Grails 3 app.
+The GORM Logical Delete plugin provides support for utilizing logical deletes for GORM managed entities in a Grails 3 app.

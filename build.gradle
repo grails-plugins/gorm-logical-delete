@@ -52,16 +52,16 @@ bootRun {
 bootRepackage.enabled = false
 grailsPublish {
     userOrg = 'grails'
-    githubSlug = 'grails-plugins/hibernate-logical-delete'
+    githubSlug = 'grails-plugins/gorm-logical-delete'
     license {
         name = 'Apache-2.0'
     }
-    title = 'Grails Hibernate Logical Delete'
-    desc = 'Adds logical delete capabilities to Grails 3 apps using Hibernate'
+    title = 'GORM Logical Delete'
+    desc = 'Adds logical delete capabilities to GORM'
     developers = [jeffbrown: "Jeff Scott Brown"]
 }
 
-groovydoc.docTitle = "Grails Hibernate Logical Delete ${project.version}"
+groovydoc.docTitle = "GORM Logical Delete ${project.version}"
 groovydoc.destinationDir = new File(buildDir, 'docs/api')
 
 asciidoctor.outputDir = new File(buildDir, 'docs')
