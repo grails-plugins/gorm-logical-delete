@@ -1,6 +1,6 @@
-package hibernate.logical.delete;
+package hibernate.logical.delete
 
-import grails.gorm.transactions.Transactional;
+import grails.gorm.transactions.Transactional
 
 @Transactional
 class SoftDeleteService {

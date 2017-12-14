@@ -12,7 +12,7 @@ trait SoftDelete {
 
     @Override
     void delete() {
-        this.markDirty("deleted", true, false)
+        this.markDirty('deleted', true, false)
         this.deleted = true
         save()
     }

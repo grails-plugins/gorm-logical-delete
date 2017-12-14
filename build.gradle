@@ -95,4 +95,5 @@ task docs(dependsOn:[groovydoc, asciidoctor])
 
 codenarc {
     configFile file('config/codenarc/codenarc.groovy')
+    sourceSets = [sourceSets.main]
 }

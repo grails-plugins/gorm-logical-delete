@@ -127,7 +127,7 @@ ruleset {
     // rulesets/exceptions.xml
     CatchArrayIndexOutOfBoundsException
     CatchError
-    CatchException
+//    CatchException
     CatchIllegalMonitorStateException
     CatchIndexOutOfBoundsException
     CatchNullPointerException
@@ -190,7 +190,7 @@ ruleset {
     StatelessClass
 
     // rulesets/grails.xml
-    GrailsDomainHasEquals
+//    GrailsDomainHasEquals
     GrailsDomainHasToString
     GrailsDomainReservedSqlKeywordName
     GrailsDomainWithServiceReference
