@@ -1,15 +1,13 @@
 package hibernate.logical.delete
 
-import grails.artefact.Enhances
 import groovy.transform.CompileStatic
 import groovy.transform.SelfType
-import org.grails.core.artefact.DomainClassArtefactHandler
 import org.grails.datastore.gorm.GormEntity
 
 @CompileStatic
-@Enhances(DomainClassArtefactHandler.TYPE)
 @SelfType(GormEntity)
 trait HibernateLogicalDeleteGormEntity {
+
     Boolean deleted = false
 
     void delete() {
@@ -26,13 +24,8 @@ trait HibernateLogicalDeleteGormEntity {
                 delete()
             }
         } else {
-            if (params) {
-                // not sure why this is only set if params exist...
-                this.deleted = true
-                save(params)
-            } else {
-                save()
-            }
+            this.deleted = true
+            save(params)
         }
     }
 }
