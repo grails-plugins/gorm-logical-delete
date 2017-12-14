@@ -1,6 +1,6 @@
 package hibernate.logical.delete
 
-class Person implements SoftDelete<Person> {
+class Person implements SoftDelete {
     String userName
 
     String toString() {
