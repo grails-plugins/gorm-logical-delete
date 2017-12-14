@@ -44,6 +44,50 @@ class LogicalDeleteSpec extends HibernateSpec {
         then:
         p.deleted
     }
+
+    @Rollback
+    void 'test logical unDelete flush'() {
+        given:
+        new Person(userName: "Fred").save(flush:true)
+
+        when:
+        Person p = Person.first()
+        p.delete()
+        p = Person.first()
+
+        then:
+        p.deleted
+
+        when:
+        p.unDelete(flush: true)
+        p = Person.first()
+
+        then:
+        !p.deleted
+
+    }
+
+    @Rollback
+    void 'test logical unDelete'() {
+        given:
+        new Person(userName: "Fred").save(flush:true)
+
+        when:
+        Person p = Person.first()
+        p.delete()
+        p = Person.first()
+
+        then:
+        p.deleted
+
+        when:
+        p.unDelete()
+        p = Person.first()
+
+        then:
+        !p.deleted
+
+    }
 }
 
 @Entity

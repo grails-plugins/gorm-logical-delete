@@ -21,4 +21,16 @@ trait LogicalDelete {
         deleted = true
         save(params)
     }
+
+    void unDelete() {
+        markDirty('deleted', false, true)
+        deleted = false
+        save()
+    }
+
+    void unDelete(Map params) {
+        markDirty('deleted', false, true)
+        deleted = false
+        save(params)
+    }
 }
