@@ -2,17 +2,13 @@ package hibernate.logical.delete
 
 import grails.gorm.transactions.Rollback
 import grails.testing.mixin.integration.Integration
-import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 
 @Rollback
 @Integration
 class LogicalDeleteSpec extends Specification {
 
-    @Autowired
-    LogicalDeleteService personService
-
-    void 'test logical delete'() {
+    void 'test logical delete flush'() {
         given:
         new Person(userName: "Fred").save(flush:true)
 
@@ -32,7 +28,7 @@ class LogicalDeleteSpec extends Specification {
     }
 
     @Rollback
-    void 'test logical with transaction'() {
+    void 'test logical delete'() {
         given:
         new Person(userName: "Fred").save(flush:true)
 
@@ -43,7 +39,7 @@ class LogicalDeleteSpec extends Specification {
         !p.deleted
 
         when:
-        personService.runDelete(p)
+        p.delete()
         p = Person.first()
 
         then:
