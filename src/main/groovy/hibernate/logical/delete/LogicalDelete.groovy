@@ -6,7 +6,7 @@ import org.grails.datastore.gorm.GormEntity
 
 @CompileStatic
 @SelfType(GormEntity)
-trait SoftDelete {
+trait LogicalDelete {
     Boolean allowQueryOfDeletedItems = false
     Boolean deleted = false
 

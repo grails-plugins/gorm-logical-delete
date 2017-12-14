@@ -20,7 +20,7 @@ class PreQueryListener implements ApplicationListener<PreQueryEvent> {
             PersistentEntity entity = query.entity
 
             /*
-                if(entity instanceof SoftDelete)
+                if(entity instanceof LogicalDelete)
                 I think this would be a better if statement but instanceof does not seem to apply to traits? but
                 instanceof only returns User
              */
@@ -30,7 +30,7 @@ class PreQueryListener implements ApplicationListener<PreQueryEvent> {
                 // Pseudo Code: dont understand how to get this value here as its does not seem to be available, only
                 // property name?
                 // if allowQueryOfDeletedItems is not true then apply additional filter value
-                // allowQueryOfDeletedItems is a property on SoftDelete that can be overridden by domain classes to
+                // allowQueryOfDeletedItems is a property on LogicalDelete that can be overridden by domain classes to
                 // specify
                 // if we want to allow searching of all deleted properties
 

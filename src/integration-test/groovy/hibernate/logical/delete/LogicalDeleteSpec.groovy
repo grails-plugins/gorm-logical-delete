@@ -7,12 +7,12 @@ import spock.lang.Specification
 
 @Rollback
 @Integration
-class SoftDeleteSpec extends Specification {
+class LogicalDeleteSpec extends Specification {
 
     @Autowired
-    SoftDeleteService personService
+    LogicalDeleteService personService
 
-    void 'test soft delete'() {
+    void 'test logical delete'() {
         given:
         new Person(userName: "Fred").save(flush:true)
 
@@ -32,7 +32,7 @@ class SoftDeleteSpec extends Specification {
     }
 
     @Rollback
-    void 'test soft delete with transaction'() {
+    void 'test logical with transaction'() {
         given:
         new Person(userName: "Fred").save(flush:true)
 
