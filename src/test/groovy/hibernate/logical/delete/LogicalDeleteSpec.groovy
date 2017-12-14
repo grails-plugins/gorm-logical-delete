@@ -1,12 +1,11 @@
 package hibernate.logical.delete
 
+import grails.gorm.annotation.Entity
 import grails.gorm.transactions.Rollback
-import grails.testing.mixin.integration.Integration
-import spock.lang.Specification
+import grails.test.hibernate.HibernateSpec
 
 @Rollback
-@Integration
-class LogicalDeleteSpec extends Specification {
+class LogicalDeleteSpec extends HibernateSpec {
 
     void 'test logical delete flush'() {
         given:
@@ -47,4 +46,11 @@ class LogicalDeleteSpec extends Specification {
     }
 }
 
+@Entity
+class Person implements LogicalDelete {
+    String userName
 
+    String toString() {
+        "$userName"
+    }
+}
