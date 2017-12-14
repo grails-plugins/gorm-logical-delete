@@ -1,0 +1,17 @@
+= Hibernate Logical Delete {version}
+:author: Jeff Scott Brown
+:email: brownj@objectcomputing.com
+:source-highlighter: coderay
+:numbered:
+
+== Introduction
+
+include::introduction.ad[]
+
+== Installation
+
+include::installation.ad[]
+
+== API Documentation
+
+API documentation may be found link:api/index.html[here].

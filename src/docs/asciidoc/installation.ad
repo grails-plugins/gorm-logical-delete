@@ -1,0 +1,4 @@
+To add the Hibernate Logical Delete plugin to an application add the following dependency to the dependencies block of your build.gradle:
+
+[source,groovy,subs="attributes"]
+compile "org.grails.plugins:hibernate-logical-delete:{version}"
