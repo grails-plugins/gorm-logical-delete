@@ -1,4 +1,4 @@
-package hibernate.logical.delete
+package gorm.logical.delete
 
 import grails.gorm.annotation.Entity
 import grails.gorm.transactions.Rollback

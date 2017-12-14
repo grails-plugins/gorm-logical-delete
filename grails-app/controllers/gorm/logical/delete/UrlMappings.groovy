@@ -1,4 +1,4 @@
-package hibernate.logical.delete
+package gorm.logical.delete
 
 class UrlMappings {
 

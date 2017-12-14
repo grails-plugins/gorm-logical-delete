@@ -34,7 +34,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-web-boot"
     compile "org.grails:grails-logging"
-    compile "org.grails:grails-plugin-domain-class"
+    provided "org.grails:grails-plugin-domain-class"
     profile "org.grails.profiles:web-plugin"
     testRuntime "com.h2database:h2"
     testRuntime "org.apache.tomcat:tomcat-jdbc"

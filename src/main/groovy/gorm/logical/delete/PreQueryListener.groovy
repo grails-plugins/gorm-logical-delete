@@ -1,4 +1,4 @@
-package hibernate.logical.delete
+package gorm.logical.delete
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j

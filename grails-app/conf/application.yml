@@ -2,7 +2,7 @@
 grails:
     profile: web-plugin
     codegen:
-        defaultPackage: hibernate.logical.delete
+        defaultPackage: gorm.logical.delete
     spring:
         transactionManagement:
             proxies: false
