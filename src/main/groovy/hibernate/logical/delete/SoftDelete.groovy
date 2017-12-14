@@ -10,14 +10,12 @@ trait SoftDelete {
     Boolean allowQueryOfDeletedItems = false
     Boolean deleted = false
 
-    @Override
     void delete() {
         this.markDirty('deleted', true, false)
         this.deleted = true
         save()
     }
 
-    @Override
     void delete(Map params) {
         markDirty('deleted', true, false)
         deleted = true
