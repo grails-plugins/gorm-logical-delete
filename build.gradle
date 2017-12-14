@@ -34,13 +34,13 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-web-boot"
     compile "org.grails:grails-logging"
-    testCompile "org.grails.plugins:hibernate5"
     compile "org.grails:grails-plugin-domain-class"
     profile "org.grails.profiles:web-plugin"
     testRuntime "com.h2database:h2"
     testRuntime "org.apache.tomcat:tomcat-jdbc"
     provided "org.grails:grails-plugin-services"
     testCompile "org.grails:grails-plugin-testing"
+    testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails:grails-web-testing-support"
 }
 
