@@ -22,6 +22,7 @@ apply plugin:"org.grails.grails-plugin"
 apply plugin:"org.grails.grails-plugin-publish"
 apply plugin:"asset-pipeline"
 apply plugin:"org.grails.grails-gsp"
+apply plugin: 'codenarc'
 
 repositories {
     mavenLocal()
@@ -84,3 +85,7 @@ asciidoctor.outputDir = new File(buildDir, 'docs')
 asciidoctor.separateOutputDirs = false
 
 task docs(dependsOn:[groovydoc, asciidoctor])
+
+codenarc {
+    configFile file('config/codenarc/codenarc.groovy')
+}
