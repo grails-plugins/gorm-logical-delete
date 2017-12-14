@@ -38,6 +38,8 @@ dependencies {
     compile "org.grails:grails-web-boot"
     compile "org.grails:grails-logging"
     compile "org.grails.plugins:hibernate5"
+    compile "org.grails.plugins:gsp"
+    profile "org.grails.profiles:web-plugin"
     testRuntime "com.h2database:h2"
     testRuntime "org.apache.tomcat:tomcat-jdbc"
     provided "org.grails:grails-plugin-services"
