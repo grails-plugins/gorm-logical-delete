@@ -59,7 +59,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         !p.deleted
 
         when:
-        p.deleteHard()
+        p.delete(hard: true)
         p.discard()
 
         then:

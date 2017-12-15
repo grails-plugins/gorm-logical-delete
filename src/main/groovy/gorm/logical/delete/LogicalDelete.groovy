@@ -29,9 +29,13 @@ trait LogicalDelete<D> extends GormEntity<D>{
     }
 
     void delete(Map params) {
-        markDirty('deleted', true, false)
-        deleted = true
-        save(params)
+        if (params?.hard) {
+            super.delete(params)
+        } else {
+            markDirty('deleted', true, false)
+            deleted = true
+            save(params)
+        }
     }
 
     void unDelete() {
@@ -46,7 +50,5 @@ trait LogicalDelete<D> extends GormEntity<D>{
         save(params)
     }
 
-    void deleteHard() {
-        super.delete([flush: true])
-    }
+
 }
