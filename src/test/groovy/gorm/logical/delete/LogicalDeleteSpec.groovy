@@ -5,21 +5,21 @@ import grails.gorm.transactions.Rollback
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> {
+/**
+ * This test suite focuses on how the deleted field in a LogicalDelete implementation gets changed from overridded delete()
+ * operations. The get(
+ */
+@Rollback
+class LogicalDeleteSpec extends Specification implements DomainUnitTest<PersonA> {
 
     /******************* delete tests ***********************************/
 
-    Closure doWithSpring() {{ ->
-        queryListener PreQueryListener
-    }}
-
-    @Rollback
     void 'test logical delete flush'() {
         given:
-        new Person(userName: "Fred").save(flush:true)
+        createPerson()
 
         when:
-        Person p = Person.first()
+        PersonA p = PersonA.get(1)
 
         then:
         !p.deleted
@@ -27,39 +27,37 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         when:
         p.delete(flush:true)
         p.discard()
-
-        p = Person.first()
+        p = PersonA.get(1)
 
         then:
-        !p
+        p.deleted
     }
 
     @Rollback
     void 'test logical delete'() {
         given:
-        new Person(userName: "Fred").save(flush:true)
+        createPerson()
 
         when:
-        Person p = Person.first()
+        PersonA p = PersonA.get(1)
 
         then:
         !p.deleted
 
         when:
         p.delete()
-        p = Person.first()
+        p = PersonA.get(1)
 
         then:
-        !p
+        p.deleted
     }
 
-    @Rollback
     void 'test logical hard delete'() {
         given:
-        new Person(userName: "Fred").save(flush:true)
+        createPerson()
 
         when:
-        Person p = Person.first()
+        PersonA p = PersonA.get(1)
 
         then:
         !p.deleted
@@ -69,7 +67,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         p.discard()
 
         then:
-        Person.count() == 0
+        PersonA.count() == 0
     }
 
     /******************* undelete tests ***********************************/
@@ -77,93 +75,50 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     @Rollback
     void 'test logical unDelete flush'() {
         given:
-        def originalPerson = new Person(userName: "Fred").save(flush:true)
+        createPerson()
 
         when:
-        Person p = Person.first()
+        PersonA p = PersonA.get(1)
         p.delete()
-        p = Person.first()
+        p = PersonA.get(1)
 
         then:
-        !p
+        p.deleted
 
         when:
-        p = Person.get(originalPerson.id)
         p.unDelete(flush: true)
-        p = Person.first()
+        p = PersonA.get(1)
 
         then:
         !p.deleted
+
     }
 
     @Rollback
     void 'test logical unDelete'() {
         given:
-        Person originalPerson = new Person(userName: "Fred").save(flush:true)
+        createPerson()
 
         when:
-        Person p = Person.first()
+        PersonA p = PersonA.get(1)
         p.delete()
-        p = Person.first()
-
-        then:
-        !p
-
-        when:
-        p = Person.get(originalPerson.id)
+        p = PersonA.get(1)
 
         then:
         p.deleted
 
         when:
         p.unDelete()
-        p = Person.first()
+        p = PersonA.get(1)
 
         then:
         !p.deleted
+
     }
 
-    @Rollback
-    void 'test dynamic finder'() {
-        given: 'a new, un-deleted person has been added'
-        new Person(userName: "Fred").save(flush:true)
-
-        when: 'a search is performed on non-deleted people'
-        final List<Person> nonDeletedPersonList = Person.findAllByDeleted(false)
-        Person p1 = nonDeletedPersonList.first()
-
-        then:
-        p1.userName == 'Fred'
-        !p1.deleted
-    }
-
-    @Rollback
-    void 'test findAll'() {
-        given: 'two new, un-deleted person has been added'
-        new Person(userName: "Bill").save(flush:true)
-        new Person(userName: "Ted").save(flush:true)
-
-        when: 'a search is performed on non-deleted people'
-        final List<Person> nonDeletedPersonList = Person.findAll()
-
-        then:
-        nonDeletedPersonList.size() == 2
-
-        when: 'a search is performed on deleted people'
-        Person p1 = nonDeletedPersonList.first()
-        p1.delete()
-        final List<Person> someDeletedPersonList = Person.findAll()
-
-        then:
-        someDeletedPersonList.size() == 1
-
-        when: 'a search is performed on deleted people'
-        Person p2 = nonDeletedPersonList.get(1)
-        p2.delete()
-        final List<Person> deletedPersonList = Person.findAll()
-
-        then:
-        deletedPersonList.size() == 0
+    PersonA createPerson() {
+        def person = new PersonA(userName: "Fred").save(flush:true)
+        person
     }
 }
 
@@ -171,7 +126,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 /**************** GORM Entity *****************************/
 
 @Entity
-class Person implements LogicalDelete {
+class PersonA implements LogicalDelete {
     String userName
 
     String toString() {
