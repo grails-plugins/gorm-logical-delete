@@ -13,34 +13,28 @@ class GormLogicalDeleteGrailsPlugin extends Plugin {
 
     // TODO Fill in these fields
     def title = 'GORM Logical Delete' // Headline display name of the plugin
-    def author = 'Your name'
-    def authorEmail = ''
+    def author = 'Jeff Scott Brown'
+    def authorEmail = 'brownj@objectcomputing.com'
     def description = '''\
-Brief summary/description of the plugin.
+GORM Logical Delete Plugin For Grails 3.
 '''
     def profiles = ['web']
 
     // URL to the plugin's documentation
     def documentation = 'http://grails.org/plugin/gorm-logical-delete'
 
-    // Extra (optional) plugin metadata
+    def license = 'APACHE2'
 
-    // License: one of 'APACHE', 'GPL2', 'GPL3'
-//    def license = "APACHE"
+    def organization = [ name: 'OCI', url: 'http://www.objectcomputing.com/' ]
 
-    // Details of company behind the plugin (if there is one)
-//    def organization = [ name: "My Company", url: "http://www.my-company.com/" ]
+    def developers = [ [ name: 'Ben Rhine', email: 'rhineb@objectcomputing.com' ],
+                       [ name: 'Nirav Assar', email: 'assarn@objectcomputing.com' ]]
 
-    // Any additional developers beyond the author specified above.
-//    def developers = [ [ name: "Joe Bloggs", email: "joe@bloggs.net" ]]
+    def issueManagement = [ system: 'GitHub', url: 'https://github.com/grails-plugins/gorm-logical-delete/issues' ]
 
-    // Location of the plugin's issue tracker.
-//    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
+    def scm = [ url: 'https://github.com/grails-plugins/gorm-logical-delete' ]
 
-    // Online location of the plugin's browseable source code.
-//    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
-
-    Closure doWithSpring() {{ ->
+    Closure doWithSpring() { { ->
         logicalDeletePreQueryListener PreQueryListener
-    }}
+    } }
 }
