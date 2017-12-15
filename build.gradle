@@ -67,6 +67,15 @@ groovydoc.destinationDir = new File(buildDir, 'docs/api')
 asciidoctor.outputDir = new File(buildDir, 'docs')
 asciidoctor.separateOutputDirs = false
 
+asciidoctor {
+
+    attributes 'experimental'  : 'true',
+            'compat-mode'   : 'true',
+            'toc'           : 'left',
+            'icons'         : 'font',
+            'version'       : project.version
+}
+
 task docs(dependsOn:[groovydoc, asciidoctor])
 
 codenarc {
