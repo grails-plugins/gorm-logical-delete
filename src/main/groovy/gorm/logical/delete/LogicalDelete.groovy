@@ -16,13 +16,10 @@
 package gorm.logical.delete
 
 import groovy.transform.CompileStatic
-import groovy.transform.SelfType
 import org.grails.datastore.gorm.GormEntity
 
 @CompileStatic
-@SelfType(GormEntity)
-trait LogicalDelete {
-    Boolean allowQueryOfDeletedItems = false
+trait LogicalDelete<D> extends GormEntity<D>{
     Boolean deleted = false
 
     void delete() {
@@ -47,5 +44,9 @@ trait LogicalDelete {
         markDirty('deleted', false, true)
         deleted = false
         save(params)
+    }
+
+    void deleteHard() {
+        super.delete([flush: true])
     }
 }

@@ -48,6 +48,24 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         p.deleted
     }
 
+    void 'test logical hard delete'() {
+        given:
+        new Person(userName: "Fred").save(flush:true)
+
+        when:
+        Person p = Person.first()
+
+        then:
+        !p.deleted
+
+        when:
+        p.deleteHard()
+        p.discard()
+
+        then:
+        Person.count() == 0
+    }
+
     /******************* undelete tests ***********************************/
 
     @Rollback
