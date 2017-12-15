@@ -5,11 +5,15 @@ import grails.gorm.transactions.Rollback
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-@Rollback
 class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> {
 
     /******************* delete tests ***********************************/
 
+    Closure doWithSpring() {{ ->
+        queryListener PreQueryListener
+    }}
+
+    @Rollback
     void 'test logical delete flush'() {
         given:
         new Person(userName: "Fred").save(flush:true)
@@ -25,8 +29,9 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         p.discard()
 
         p = Person.first()
+
         then:
-        p.deleted
+        !p
     }
 
     @Rollback
@@ -45,9 +50,10 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         p = Person.first()
 
         then:
-        p.deleted
+        !p
     }
 
+    @Rollback
     void 'test logical hard delete'() {
         given:
         new Person(userName: "Fred").save(flush:true)
@@ -71,7 +77,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     @Rollback
     void 'test logical unDelete flush'() {
         given:
-        new Person(userName: "Fred").save(flush:true)
+        def originalPerson = new Person(userName: "Fred").save(flush:true)
 
         when:
         Person p = Person.first()
@@ -79,26 +85,32 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         p = Person.first()
 
         then:
-        p.deleted
+        !p
 
         when:
+        p = Person.get(originalPerson.id)
         p.unDelete(flush: true)
         p = Person.first()
 
         then:
         !p.deleted
-
     }
 
     @Rollback
     void 'test logical unDelete'() {
         given:
-        new Person(userName: "Fred").save(flush:true)
+        Person originalPerson = new Person(userName: "Fred").save(flush:true)
 
         when:
         Person p = Person.first()
         p.delete()
         p = Person.first()
+
+        then:
+        !p
+
+        when:
+        p = Person.get(originalPerson.id)
 
         then:
         p.deleted
@@ -109,7 +121,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
         then:
         !p.deleted
-
     }
 
     @Rollback
@@ -124,16 +135,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         then:
         p1.userName == 'Fred'
         !p1.deleted
-
-        when: 'a search is performed on deleted people'
-        p1.delete()
-        final List<Person> deletedPersonList = Person.findAllByDeleted(true)
-        Person p2 = deletedPersonList.first()
-
-        then:
-        p2.userName == 'Fred'
-        p2.deleted
-
     }
 
     @Rollback
@@ -154,7 +155,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         final List<Person> someDeletedPersonList = Person.findAll()
 
         then:
-        someDeletedPersonList.size() == 2
+        someDeletedPersonList.size() == 1
 
         when: 'a search is performed on deleted people'
         Person p2 = nonDeletedPersonList.get(1)
@@ -162,8 +163,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         final List<Person> deletedPersonList = Person.findAll()
 
         then:
-        deletedPersonList.size() == 2
-
+        deletedPersonList.size() == 0
     }
 }
 
