@@ -39,4 +39,8 @@ Brief summary/description of the plugin.
 
     // Online location of the plugin's browseable source code.
 //    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
+
+    Closure doWithSpring() {{ ->
+        logicalDeletePreQueryListener PreQueryListener
+    }}
 }
