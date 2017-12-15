@@ -35,8 +35,7 @@ GORM Logical Delete Plugin For Grails 3.
 '''
     def profiles = ['web']
 
-    // URL to the plugin's documentation
-    def documentation = 'http://grails.org/plugin/gorm-logical-delete'
+    def documentation = 'https://grails-plugins.github.io/gorm-logical-delete/'
 
     def license = 'APACHE2'
 
