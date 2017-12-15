@@ -8,6 +8,8 @@ import spock.lang.Specification
 @Rollback
 class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> {
 
+    /******************* delete tests ***********************************/
+
     void 'test logical delete flush'() {
         given:
         new Person(userName: "Fred").save(flush:true)
@@ -45,6 +47,8 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         then:
         p.deleted
     }
+
+    /******************* undelete tests ***********************************/
 
     @Rollback
     void 'test logical unDelete flush'() {
@@ -90,6 +94,9 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     }
 }
+
+
+/**************** GORM Entity *****************************/
 
 @Entity
 class Person implements LogicalDelete {
