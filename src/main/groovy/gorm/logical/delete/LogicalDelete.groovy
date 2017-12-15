@@ -19,7 +19,7 @@ import groovy.transform.CompileStatic
 import org.grails.datastore.gorm.GormEntity
 
 @CompileStatic
-trait LogicalDelete<D> extends GormEntity<D>{
+trait LogicalDelete<D> extends GormEntity<D> {
     Boolean deleted = false
 
     void delete() {
@@ -49,6 +49,5 @@ trait LogicalDelete<D> extends GormEntity<D>{
         deleted = false
         save(params)
     }
-
 
 }
