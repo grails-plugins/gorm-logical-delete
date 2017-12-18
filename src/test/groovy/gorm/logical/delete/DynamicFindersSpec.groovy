@@ -19,7 +19,7 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>
     @Rollback
     void 'test dynamic findAll hide logical deleted items'() {
         given:
-        createUsers()
+        Person.createUsers()
 
         // findAll() Call
         when:
@@ -47,7 +47,7 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>
     @Rollback
     void 'test dynamic findByUserName hide logical deleted items'() {
         given:
-        createUsers()
+        Person.createUsers()
 
         // findByUserName() Call
         when:
@@ -67,7 +67,7 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>
     @Rollback
     void 'test dynamic findByDeleted hide logical deleted items'() {
         given:
-        createUsers()
+        Person.createUsers()
 
         // findByDeleted() Call
         when:
@@ -93,7 +93,7 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>
     @Rollback
     void 'test dynamic get() finds logical deleted items'() {
         given:
-        createUsers()
+        Person.createUsers()
 
         when: "when 'get()' is used, we can access logically deleted entities"
         assert Person.count() == 3
@@ -105,14 +105,5 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>
         then:
         nirav.userName == "Nirav" && nirav.deleted
         ben.userName == "Ben" && ben.deleted
-    }
-
-    /********************* setup *****************************/
-
-    private List<Person> createUsers() {
-        def ben = new Person(userName: "Ben").save(flush: true)
-        def nirav = new Person(userName: "Nirav").save(flush: true)
-        def jeff = new Person(userName: "Jeff").save(flush: true)
-        [ben, nirav, jeff]
     }
 }

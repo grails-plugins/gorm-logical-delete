@@ -20,7 +20,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     @Rollback
     void 'test logical delete flush'() {
         given:
-        createPerson()
+        Person.createUsers()
 
         when:
         Person p = Person.get(1)
@@ -40,7 +40,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     @Rollback
     void 'test logical delete'() {
         given:
-        createPerson()
+        Person.createUsers()
 
         when:
         Person p = Person.get(1)
@@ -59,7 +59,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     @Rollback
     void 'test logical hard delete'() {
         given:
-        createPerson()
+        Person.createUsers()
 
         when:
         Person p = Person.get(1)
@@ -72,7 +72,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         p.discard()
 
         then:
-        Person.count() == 0
+        Person.count() == 2 // 2 left after one hard deleted
     }
 
     /******************* undelete tests ***********************************/
@@ -80,7 +80,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     @Rollback
     void 'test logical unDelete flush'() {
         given:
-        createPerson()
+        Person.createUsers()
 
         when:
         Person p = Person.get(1)
@@ -102,7 +102,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     @Rollback
     void 'test logical unDelete'() {
         given:
-        createPerson()
+        Person.createUsers()
 
         when:
         Person p = Person.get(1)
@@ -119,10 +119,5 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         then:
         !p.deleted
 
-    }
-
-    Person createPerson() {
-        def person = new Person(userName: "Fred").save(flush:true)
-        person
     }
 }

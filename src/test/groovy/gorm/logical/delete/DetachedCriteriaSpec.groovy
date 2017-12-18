@@ -21,7 +21,7 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
     @Rollback
     void 'test detached criteria where - logical deleted items'() {
         given:
-        createUsers()
+        Person.createUsers()
 
         // where detachedCriteria Call
         when:
@@ -52,7 +52,7 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
     @Rollback
     void 'test detached criteria findAll - logical deleted items'() {
         given:
-        createUsers()
+        Person.createUsers()
 
         // findAll detachedCriteria Call
         when:
@@ -75,16 +75,6 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
         results
         results[0].userName == 'Jeff'
     }
-
-
-    /********************* setup *****************************/
-
-    private List<Person> createUsers() {
-        def ben = new Person(userName: "Ben").save(flush: true)
-        def nirav = new Person(userName: "Nirav").save(flush: true)
-        def jeff = new Person(userName: "Jeff").save(flush: true)
-        [ben, nirav, jeff]
-    }
 }
 
 /**************** GORM Entity *****************************/
@@ -95,5 +85,14 @@ class Person implements LogicalDelete {
 
     String toString() {
         "$userName"
+    }
+
+    /********************* setup *****************************/
+
+    static List<Person> createUsers() {
+        def ben = new Person(userName: "Ben").save(flush: true)
+        def nirav = new Person(userName: "Nirav").save(flush: true)
+        def jeff = new Person(userName: "Jeff").save(flush: true)
+        [ben, nirav, jeff]
     }
 }
