@@ -36,6 +36,39 @@ trait LogicalDelete<D> extends GormEntity<D> {
         }
     }
 
+    static read(final Serializable id, Boolean allowDeleted = false) {
+        if (allowDeleted) {
+            currentGormStaticApi().read(id)
+        } else {
+            new DetachedCriteria(this).build {
+                eq 'id', id
+                eq 'deleted', false
+            }.get()
+        }
+    }
+
+    static load(final Serializable id, Boolean allowDeleted = false) {
+        if (allowDeleted) {
+            currentGormStaticApi().load(id)
+        } else {
+            new DetachedCriteria(this).build {
+                eq 'id', id
+                eq 'deleted', false
+            }.get()
+        }
+    }
+
+    static proxy(final Serializable id, Boolean allowDeleted = false) {
+        if (allowDeleted) {
+            currentGormStaticApi().proxy(id)
+        } else {
+            new DetachedCriteria(this).build {
+                eq 'id', id
+                eq 'deleted', false
+            }.get()
+        }
+    }
+
     void delete() {
         this.markDirty('deleted', true, false)
         this.deleted = true
