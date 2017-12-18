@@ -99,8 +99,8 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>
         assert Person.count() == 3
         Person.findByUserName("Ben").delete()
         Person.findByUserName("Nirav").delete()
-        def ben = Person.get(1)
-        def nirav = Person.get(2)
+        final Person ben = Person.get(1, true)
+        final Person nirav = Person.get(2, true)
 
         then:
         nirav.userName == "Nirav" && nirav.deleted

@@ -15,12 +15,26 @@
  */
 package gorm.logical.delete
 
+import grails.gorm.DetachedCriteria
 import groovy.transform.CompileStatic
+import org.grails.datastore.gorm.GormEnhancer
 import org.grails.datastore.gorm.GormEntity
+import org.grails.datastore.gorm.GormStaticApi
 
 @CompileStatic
 trait LogicalDelete<D> extends GormEntity<D> {
     Boolean deleted = false
+
+    static get(final Serializable id, Boolean allowDeleted = false) {
+        if (allowDeleted) {
+            currentGormStaticApi().get(id)
+        } else {
+            new DetachedCriteria(this).build {
+                eq 'id', id
+                eq 'deleted', false
+            }.get()
+        }
+    }
 
     void delete() {
         this.markDirty('deleted', true, false)
@@ -50,4 +64,10 @@ trait LogicalDelete<D> extends GormEntity<D> {
         save(params)
     }
 
+    /** ============================================================================================
+     * Private Methods:
+     * ============================================================================================= */
+    private static GormStaticApi<D> currentGormStaticApi() {
+        (GormStaticApi<D>)GormEnhancer.findStaticApi(this)
+    }
 }
