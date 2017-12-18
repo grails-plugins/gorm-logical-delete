@@ -1,6 +1,5 @@
 package gorm.logical.delete
 
-import grails.gorm.annotation.Entity
 import grails.gorm.transactions.Rollback
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
@@ -9,7 +8,7 @@ import spock.lang.Specification
  * This test suite focuses on how the deleted field in a LogicalDelete implementation gets changed from overridded delete()
  * operations. The get(
  */
-class LogicalDeleteSpec extends Specification implements DomainUnitTest<PersonA> {
+class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> {
 
     Closure doWithSpring() { { ->
             queryListener PreQueryListener
@@ -24,7 +23,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<PersonA>
         createPerson()
 
         when:
-        PersonA p = PersonA.get(1)
+        Person p = Person.get(1)
 
         then:
         !p.deleted
@@ -32,7 +31,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<PersonA>
         when:
         p.delete(flush:true)
         p.discard()
-        p = PersonA.get(1)
+        p = Person.get(1)
 
         then:
         p.deleted
@@ -44,14 +43,14 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<PersonA>
         createPerson()
 
         when:
-        PersonA p = PersonA.get(1)
+        Person p = Person.get(1)
 
         then:
         !p.deleted
 
         when:
         p.delete()
-        p = PersonA.get(1)
+        p = Person.get(1)
 
         then:
         p.deleted
@@ -63,7 +62,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<PersonA>
         createPerson()
 
         when:
-        PersonA p = PersonA.get(1)
+        Person p = Person.get(1)
 
         then:
         !p.deleted
@@ -73,7 +72,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<PersonA>
         p.discard()
 
         then:
-        PersonA.count() == 0
+        Person.count() == 0
     }
 
     /******************* undelete tests ***********************************/
@@ -84,16 +83,16 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<PersonA>
         createPerson()
 
         when:
-        PersonA p = PersonA.get(1)
+        Person p = Person.get(1)
         p.delete()
-        p = PersonA.get(1)
+        p = Person.get(1)
 
         then:
         p.deleted
 
         when:
         p.unDelete(flush: true)
-        p = PersonA.get(1)
+        p = Person.get(1)
 
         then:
         !p.deleted
@@ -106,36 +105,24 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<PersonA>
         createPerson()
 
         when:
-        PersonA p = PersonA.get(1)
+        Person p = Person.get(1)
         p.delete()
-        p = PersonA.get(1)
+        p = Person.get(1)
 
         then:
         p.deleted
 
         when:
         p.unDelete()
-        p = PersonA.get(1)
+        p = Person.get(1)
 
         then:
         !p.deleted
 
     }
 
-    PersonA createPerson() {
-        def person = new PersonA(userName: "Fred").save(flush:true)
+    Person createPerson() {
+        def person = new Person(userName: "Fred").save(flush:true)
         person
-    }
-}
-
-
-/**************** GORM Entity *****************************/
-
-@Entity
-class PersonA implements LogicalDelete {
-    String userName
-
-    String toString() {
-        "$userName"
     }
 }

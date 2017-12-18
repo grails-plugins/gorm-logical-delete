@@ -9,7 +9,7 @@ import spock.lang.Specification
 /**
  * This test suite focuses on the behavior of detached criteria in collaboration with the PreQuery Listener
  */
-class DetachedCriteriaSpec extends Specification implements DomainUnitTest<PersonC> {
+class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Person> {
 
     Closure doWithSpring() { { ->
             queryListener PreQueryListener
@@ -25,10 +25,10 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
 
         // where detachedCriteria Call
         when:
-        assert PersonC.count() == 3
-        PersonC.findByUserName("Ben").delete()
-        PersonC.findByUserName("Nirav").delete()
-        DetachedCriteria<PersonC> query = PersonC.where {
+        assert Person.count() == 3
+        Person.findByUserName("Ben").delete()
+        Person.findByUserName("Nirav").delete()
+        DetachedCriteria<Person> query = Person.where {
             userName == "Ben" || userName == "Nirav"
         }
         def results = query.list()
@@ -37,7 +37,7 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
         !results
 
         when:
-        query = PersonC.where {
+        query = Person.where {
             userName == "Jeff"
         }
         results = query.find()
@@ -56,10 +56,10 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
 
         // findAll detachedCriteria Call
         when:
-        assert PersonC.count() == 3
-        PersonC.findByUserName("Ben").delete()
-        PersonC.findByUserName("Nirav").delete()
-        def results = PersonC.findAll {
+        assert Person.count() == 3
+        Person.findByUserName("Ben").delete()
+        Person.findByUserName("Nirav").delete()
+        def results = Person.findAll {
             userName == "Ben" || userName == "Nirav"
         }
 
@@ -67,7 +67,7 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
         !results
 
         when:
-        results = PersonC.findAll {
+        results = Person.findAll {
             userName == "Jeff"
         }
 
@@ -79,10 +79,10 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
 
     /********************* setup *****************************/
 
-    private List<PersonC> createUsers() {
-        def ben = new PersonC(userName: "Ben").save(flush: true)
-        def nirav = new PersonC(userName: "Nirav").save(flush: true)
-        def jeff = new PersonC(userName: "Jeff").save(flush: true)
+    private List<Person> createUsers() {
+        def ben = new Person(userName: "Ben").save(flush: true)
+        def nirav = new Person(userName: "Nirav").save(flush: true)
+        def jeff = new Person(userName: "Jeff").save(flush: true)
         [ben, nirav, jeff]
     }
 }
@@ -90,7 +90,7 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
 /**************** GORM Entity *****************************/
 
 @Entity
-class PersonC implements LogicalDelete {
+class Person implements LogicalDelete {
     String userName
 
     String toString() {
