@@ -1,6 +1,5 @@
 package gorm.logical.delete
 
-import grails.gorm.DetachedCriteria
 import grails.gorm.transactions.Rollback
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
@@ -46,6 +45,29 @@ class CriteriaSpec extends Specification implements DomainUnitTest<Person> {
         then:
         results
         results[0].userName == 'Jeff'
+    }
+
+    /******************* test criteria with projection ***********************************/
+
+    @Rollback
+    void 'test criteria with projection - logical deleted items'() {
+        given:
+        Person.createUsers()
+
+        // projection Call
+        when:
+        assert Person.count() == 3
+        Person.findByUserName("Ben").delete()
+        Person.findByUserName("Nirav").delete()
+        def criteria = Person.createCriteria()
+        def results = criteria.get {
+            projections {
+                count()
+            }
+        }
+
+        then: "we should not get the deleted items"
+        results == 1
     }
 
 }
