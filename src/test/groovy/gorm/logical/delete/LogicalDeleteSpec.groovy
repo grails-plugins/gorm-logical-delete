@@ -18,7 +18,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     /******************* delete tests ***********************************/
 
     @Rollback
-    void 'test logical delete flush'() {
+    void 'test logical delete flush - load'() {
         given:
         Person.createUsers()
 
@@ -31,14 +31,14 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         when:
         p.delete(flush:true)
         p.discard()
-        p = Person.get(1)
+        p = Person.load(1)
 
         then:
         p.deleted
     }
 
     @Rollback
-    void 'test logical delete'() {
+    void 'test logical delete - proxy'() {
         given:
         Person.createUsers()
 
@@ -50,7 +50,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
         when:
         p.delete()
-        p = Person.get(1)
+        p = Person.proxy(1)
 
         then:
         p.deleted
