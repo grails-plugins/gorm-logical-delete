@@ -8,7 +8,7 @@ import spock.lang.Specification
 /**
  * This test suite focuses on the behavior of dynamic finders in collaboration with the PreQuery Listener
  */
-class DynamicFindersSpec extends Specification implements DomainUnitTest<PersonB> {
+class DynamicFindersSpec extends Specification implements DomainUnitTest<PersonC> {
 
     Closure doWithSpring() { { ->
             queryListener PreQueryListener
@@ -24,10 +24,10 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<PersonB
 
         // findAll() Call
         when:
-        assert PersonB.count() == 3
-        PersonB.findByUserName("Ben").delete()
-        PersonB.findByUserName("Nirav").delete()
-        List<PersonB> results = PersonB.findAll()
+        assert PersonC.count() == 3
+        PersonC.findByUserName("Ben").delete()
+        PersonC.findByUserName("Nirav").delete()
+        List<PersonC> results = PersonC.findAll()
 
         then: "we should only get those not logically deleted"
         results.size() == 1
@@ -36,7 +36,7 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<PersonB
         // list() calll
         when:
         results.clear()
-        results = PersonB.list()
+        results = PersonC.list()
 
         then:
         results.size() == 1
@@ -52,11 +52,11 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<PersonB
 
         // findByUserName() Call
         when:
-        assert PersonB.count() == 3
-        PersonB.findByUserName("Ben").delete()
-        PersonB.findByUserName("Nirav").delete()
-        PersonB result1 = PersonB.findByUserName("Ben")
-        PersonB result2 = PersonB.findByUserName("Nirav")
+        assert PersonC.count() == 3
+        PersonC.findByUserName("Ben").delete()
+        PersonC.findByUserName("Nirav").delete()
+        PersonC result1 = PersonC.findByUserName("Ben")
+        PersonC result2 = PersonC.findByUserName("Nirav")
 
         then:  "we shouldn't get any bc it was deleted"
         !result1
@@ -72,17 +72,17 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<PersonB
 
         // findByDeleted() Call
         when:
-        assert PersonB.count() == 3
-        PersonB.findByUserName("Ben").delete()
-        PersonB.findByUserName("Nirav").delete()
-        List<PersonB> results = PersonB.findAllByDeleted(true)
+        assert PersonC.count() == 3
+        PersonC.findByUserName("Ben").delete()
+        PersonC.findByUserName("Nirav").delete()
+        List<PersonC> results = PersonC.findAllByDeleted(true)
 
         then: "we should not get any because these are logically deleted"
         results.size() == 0
         results.clear()
 
         when:
-        results = PersonB.findAllByDeleted(false)
+        results = PersonC.findAllByDeleted(false)
 
         then: "we should find the entity because it is not logically deleted"
         results.size() == 1
@@ -97,11 +97,11 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<PersonB
         createUsers()
 
         when: "when 'get()' is used, we can access logically deleted entities"
-        assert PersonB.count() == 3
-        PersonB.findByUserName("Ben").delete()
-        PersonB.findByUserName("Nirav").delete()
-        def ben = PersonB.get(1)
-        def nirav = PersonB.get(2)
+        assert PersonC.count() == 3
+        PersonC.findByUserName("Ben").delete()
+        PersonC.findByUserName("Nirav").delete()
+        def ben = PersonC.get(1)
+        def nirav = PersonC.get(2)
 
         then:
         nirav.userName == "Nirav" && nirav.deleted
@@ -110,10 +110,10 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<PersonB
 
     /********************* setup *****************************/
 
-    private List<PersonB> createUsers() {
-        def ben = new PersonB(userName: "Ben").save(flush: true)
-        def nirav = new PersonB(userName: "Nirav").save(flush: true)
-        def jeff = new PersonB(userName: "Jeff").save(flush: true)
+    private List<PersonC> createUsers() {
+        def ben = new PersonC(userName: "Ben").save(flush: true)
+        def nirav = new PersonC(userName: "Nirav").save(flush: true)
+        def jeff = new PersonC(userName: "Jeff").save(flush: true)
         [ben, nirav, jeff]
     }
 }
