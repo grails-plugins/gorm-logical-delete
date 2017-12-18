@@ -25,8 +25,8 @@ import org.grails.datastore.gorm.GormStaticApi
 trait LogicalDelete<D> extends GormEntity<D> {
     Boolean deleted = false
 
-    static get(final Serializable id, Boolean allowDeleted = false) {
-        if (allowDeleted) {
+    static get(final Serializable id, Boolean includeDeleted = false) {
+        if (includeDeleted) {
             currentGormStaticApi().get(id)
         } else {
             new DetachedCriteria(this).build {
@@ -36,8 +36,8 @@ trait LogicalDelete<D> extends GormEntity<D> {
         }
     }
 
-    static read(final Serializable id, Boolean allowDeleted = false) {
-        if (allowDeleted) {
+    static read(final Serializable id, Boolean includeDeleted = false) {
+        if (includeDeleted) {
             currentGormStaticApi().read(id)
         } else {
             new DetachedCriteria(this).build {
@@ -47,8 +47,8 @@ trait LogicalDelete<D> extends GormEntity<D> {
         }
     }
 
-    static load(final Serializable id, Boolean allowDeleted = false) {
-        if (allowDeleted) {
+    static load(final Serializable id, Boolean includeDeleted = false) {
+        if (includeDeleted) {
             currentGormStaticApi().load(id)
         } else {
             new DetachedCriteria(this).build {
@@ -58,8 +58,8 @@ trait LogicalDelete<D> extends GormEntity<D> {
         }
     }
 
-    static proxy(final Serializable id, Boolean allowDeleted = false) {
-        if (allowDeleted) {
+    static proxy(final Serializable id, Boolean includeDeleted = false) {
+        if (includeDeleted) {
             currentGormStaticApi().proxy(id)
         } else {
             new DetachedCriteria(this).build {
