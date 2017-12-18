@@ -9,11 +9,16 @@ import spock.lang.Specification
  * This test suite focuses on how the deleted field in a LogicalDelete implementation gets changed from overridded delete()
  * operations. The get(
  */
-@Rollback
 class LogicalDeleteSpec extends Specification implements DomainUnitTest<PersonA> {
+
+    Closure doWithSpring() { { ->
+            queryListener PreQueryListener
+        }
+    }
 
     /******************* delete tests ***********************************/
 
+    @Rollback
     void 'test logical delete flush'() {
         given:
         createPerson()
@@ -52,6 +57,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<PersonA>
         p.deleted
     }
 
+    @Rollback
     void 'test logical hard delete'() {
         given:
         createPerson()
