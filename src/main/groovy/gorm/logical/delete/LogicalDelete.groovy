@@ -25,6 +25,15 @@ import org.grails.datastore.gorm.GormStaticApi
 trait LogicalDelete<D> extends GormEntity<D> {
     Boolean deleted = false
 
+    public static final ThreadLocal<Boolean> USE_PREQUERY_LISTENER = ThreadLocal.withInitial { -> true }
+
+    static Object withDeleted(Closure closure) {
+        USE_PREQUERY_LISTENER.set(false)
+        def results = closure.call()
+        USE_PREQUERY_LISTENER.set(true)
+        results
+    }
+
     static get(final Serializable id, Boolean includeDeleted = false) {
         if (includeDeleted) {
             currentGormStaticApi().get(id)
