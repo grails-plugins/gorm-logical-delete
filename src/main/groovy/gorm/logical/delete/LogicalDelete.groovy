@@ -29,52 +29,52 @@ trait LogicalDelete<D> extends GormEntity<D> {
 
     static Object withDeleted(Closure closure) {
         USE_PREQUERY_LISTENER.set(false)
-        final results = closure.call()
+        Object closureReturnValue = closure.call()
         USE_PREQUERY_LISTENER.set(true)
-        results
+        closureReturnValue
     }
 
     static get(final Serializable id) {
-        if (!USE_PREQUERY_LISTENER.get()) {
-            this.currentGormStaticApi().get(id)
-        } else {
+        if (USE_PREQUERY_LISTENER.get()) {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
             }.get()
+        } else {
+            this.currentGormStaticApi().get(id)
         }
     }
 
     static read(final Serializable id) {
-        if (!USE_PREQUERY_LISTENER.get()) {
-            this.currentGormStaticApi().read(id)
-        } else {
+        if (USE_PREQUERY_LISTENER.get()) {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
             }.get()
+        } else {
+            this.currentGormStaticApi().read(id)
         }
     }
 
     static load(final Serializable id) {
-        if (!USE_PREQUERY_LISTENER.get()) {
-            this.currentGormStaticApi().load(id)
-        } else {
+        if (USE_PREQUERY_LISTENER.get()) {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
             }.get()
+        } else {
+            this.currentGormStaticApi().load(id)
         }
     }
 
     static proxy(final Serializable id) {
-        if (!USE_PREQUERY_LISTENER.get()) {
-            this.currentGormStaticApi().proxy(id)
-        } else {
+        if (USE_PREQUERY_LISTENER.get()) {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
             }.get()
+        } else {
+            this.currentGormStaticApi().proxy(id)
         }
     }
 
