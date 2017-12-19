@@ -29,7 +29,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
 
     static Object withDeleted(Closure closure) {
         USE_PREQUERY_LISTENER.set(false)
-        def results = closure.call()
+        final results = closure.call()
         USE_PREQUERY_LISTENER.set(true)
         results
     }

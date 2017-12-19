@@ -87,6 +87,10 @@ class Person implements LogicalDelete {
         "$userName"
     }
 
+    static mapping = {
+        deleted column:"delFlag"
+    }
+
     /********************* setup *****************************/
 
     static List<Person> createUsers() {
