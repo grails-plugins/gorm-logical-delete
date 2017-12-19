@@ -36,7 +36,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
 
     static get(final Serializable id, Boolean includeDeleted = false) {
         if (includeDeleted) {
-            currentGormStaticApi().get(id)
+            this.currentGormStaticApi().get(id)
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
@@ -47,7 +47,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
 
     static read(final Serializable id, Boolean includeDeleted = false) {
         if (includeDeleted) {
-            currentGormStaticApi().read(id)
+            this.currentGormStaticApi().read(id)
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
@@ -58,7 +58,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
 
     static load(final Serializable id, Boolean includeDeleted = false) {
         if (includeDeleted) {
-            currentGormStaticApi().load(id)
+            this.currentGormStaticApi().load(id)
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
@@ -69,7 +69,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
 
     static proxy(final Serializable id, Boolean includeDeleted = false) {
         if (includeDeleted) {
-            currentGormStaticApi().proxy(id)
+            this.currentGormStaticApi().proxy(id)
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
@@ -88,21 +88,21 @@ trait LogicalDelete<D> extends GormEntity<D> {
         if (params?.hard) {
             super.delete(params)
         } else {
-            markDirty('deleted', true, false)
-            deleted = true
+            this.markDirty('deleted', true, false)
+            this.deleted = true
             save(params)
         }
     }
 
     void unDelete() {
-        markDirty('deleted', false, true)
-        deleted = false
+        this.markDirty('deleted', false, true)
+        this.deleted = false
         save()
     }
 
     void unDelete(Map params) {
-        markDirty('deleted', false, true)
-        deleted = false
+        this.markDirty('deleted', false, true)
+        this.deleted = false
         save(params)
     }
 
