@@ -31,7 +31,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         when:
         p.delete(flush:true)
         p.discard()
-        p = Person.get(1, true)
+        p = Person.withDeleted { Person.get(1) }
 
         then:
         p.deleted
@@ -50,7 +50,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
         when:
         p.delete()
-        p = Person.get(1, true)
+        p = Person.withDeleted { Person.get(1) }
 
         then:
         p.deleted
@@ -91,7 +91,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         when:
         p.delete(flush:true)
         p.discard()
-        p = Person.load(1, true)
+        p = Person.withDeleted { Person.load(1) }
 
         then:
         p.deleted
@@ -110,7 +110,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
         when:
         p.delete()
-        p = Person.load(1, true)
+        p = Person.withDeleted { Person.load(1) }
 
         then:
         p.deleted
@@ -151,7 +151,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         when:
         p.delete(flush:true)
         p.discard()
-        p = Person.proxy(1, true)
+        p = Person.withDeleted { Person.proxy(1) }
 
         then:
         p.deleted
@@ -170,7 +170,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
         when:
         p.delete()
-        p = Person.proxy(1, true)
+        p = Person.withDeleted { Person.proxy(1) }
 
         then:
         p.deleted
@@ -211,7 +211,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         when:
         p.delete(flush:true)
         p.discard()
-        p = Person.read(1, true)
+        p = Person.withDeleted { Person.read(1) }
 
         then:
         p.deleted
@@ -230,7 +230,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
         when:
         p.delete()
-        p = Person.read(1, true)
+        p = Person.withDeleted { Person.read(1) }
 
         then:
         p.deleted
@@ -265,7 +265,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         when:
         Person p = Person.get(1)
         p.delete()
-        p = Person.get(1, true)
+        p = Person.withDeleted { Person.get(1) }
 
         then:
         p.deleted
@@ -287,7 +287,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
         when:
         Person p = Person.get(1)
         p.delete()
-        p = Person.get(1, true)
+        p = Person.withDeleted { Person.get(1) }
 
         then:
         p.deleted

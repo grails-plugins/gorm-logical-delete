@@ -95,15 +95,15 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>
         given:
         Person.createUsers()
 
-        when: "when 'get()' is used, we can access logically deleted entities"
+        when: "when 'get()' is used, we cannot access logically deleted entities"
         assert Person.count() == 3
         Person.findByUserName("Ben").delete()
         Person.findByUserName("Nirav").delete()
-        final Person ben = Person.get(1, true)
-        final Person nirav = Person.get(2, true)
+        final Person ben = Person.get(1)
+        final Person nirav = Person.get(2)
 
         then:
-        nirav.userName == "Nirav" && nirav.deleted
-        ben.userName == "Ben" && ben.deleted
+        !nirav
+        !ben
     }
 }

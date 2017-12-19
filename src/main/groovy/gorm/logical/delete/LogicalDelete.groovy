@@ -34,8 +34,8 @@ trait LogicalDelete<D> extends GormEntity<D> {
         results
     }
 
-    static get(final Serializable id, Boolean includeDeleted = false) {
-        if (includeDeleted) {
+    static get(final Serializable id) {
+        if (!USE_PREQUERY_LISTENER.get()) {
             this.currentGormStaticApi().get(id)
         } else {
             new DetachedCriteria(this).build {
@@ -45,8 +45,8 @@ trait LogicalDelete<D> extends GormEntity<D> {
         }
     }
 
-    static read(final Serializable id, Boolean includeDeleted = false) {
-        if (includeDeleted) {
+    static read(final Serializable id) {
+        if (!USE_PREQUERY_LISTENER.get()) {
             this.currentGormStaticApi().read(id)
         } else {
             new DetachedCriteria(this).build {
@@ -56,8 +56,8 @@ trait LogicalDelete<D> extends GormEntity<D> {
         }
     }
 
-    static load(final Serializable id, Boolean includeDeleted = false) {
-        if (includeDeleted) {
+    static load(final Serializable id) {
+        if (!USE_PREQUERY_LISTENER.get()) {
             this.currentGormStaticApi().load(id)
         } else {
             new DetachedCriteria(this).build {
@@ -67,8 +67,8 @@ trait LogicalDelete<D> extends GormEntity<D> {
         }
     }
 
-    static proxy(final Serializable id, Boolean includeDeleted = false) {
-        if (includeDeleted) {
+    static proxy(final Serializable id) {
+        if (!USE_PREQUERY_LISTENER.get()) {
             this.currentGormStaticApi().proxy(id)
         } else {
             new DetachedCriteria(this).build {
