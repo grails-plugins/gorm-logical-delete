@@ -18,7 +18,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     /******************* delete tests - (w/ get) ***********************************/
 
     @Rollback
-    void 'test logical delete flush - load (get)'() {
+    void 'test logical delete flush - get'() {
         given:
         Person.createUsers()
 
@@ -38,7 +38,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     }
 
     @Rollback
-    void 'test logical delete - proxy (get)'() {
+    void 'test logical delete - get'() {
         given:
         Person.createUsers()
 
@@ -57,7 +57,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     }
 
     @Rollback
-    void 'test logical hard delete (get)'() {
+    void 'test logical hard delete - get'() {
         given:
         Person.createUsers()
 
@@ -78,7 +78,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     /******************* delete tests - (w/ load) ***********************************/
 
     @Rollback
-    void 'test logical delete flush - load (load)'() {
+    void 'test logical delete flush - load'() {
         given:
         Person.createUsers()
 
@@ -98,7 +98,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     }
 
     @Rollback
-    void 'test logical delete - proxy (load)'() {
+    void 'test logical delete - load'() {
         given:
         Person.createUsers()
 
@@ -117,7 +117,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     }
 
     @Rollback
-    void 'test logical hard delete (load)'() {
+    void 'test logical hard delete - load'() {
         given:
         Person.createUsers()
 
@@ -138,7 +138,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     /******************* delete tests - (w/ proxy) ***********************************/
 
     @Rollback
-    void 'test logical delete flush - load (proxy)'() {
+    void 'test logical delete flush - proxy'() {
         given:
         Person.createUsers()
 
@@ -158,7 +158,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     }
 
     @Rollback
-    void 'test logical delete - proxy (proxy)'() {
+    void 'test logical delete - proxy'() {
         given:
         Person.createUsers()
 
@@ -177,7 +177,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     }
 
     @Rollback
-    void 'test logical hard delete (proxy)'() {
+    void 'test logical hard delete - proxy'() {
         given:
         Person.createUsers()
 
@@ -198,7 +198,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     /******************* delete tests - (w/ read) ***********************************/
 
     @Rollback
-    void 'test logical delete flush - load (read)'() {
+    void 'test logical delete flush - read'() {
         given:
         Person.createUsers()
 
@@ -218,7 +218,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     }
 
     @Rollback
-    void 'test logical delete - proxy (read)'() {
+    void 'test logical delete - read'() {
         given:
         Person.createUsers()
 
@@ -237,7 +237,7 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
     }
 
     @Rollback
-    void 'test logical hard delete (read)'() {
+    void 'test logical hard delete - read'() {
         given:
         Person.createUsers()
 
