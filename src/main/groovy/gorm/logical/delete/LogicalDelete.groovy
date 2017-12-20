@@ -21,21 +21,21 @@ import org.grails.datastore.gorm.GormEnhancer
 import org.grails.datastore.gorm.GormEntity
 import org.grails.datastore.gorm.GormStaticApi
 
-import static gorm.logical.delete.PreQueryListener.USE_PREQUERY_LISTENER
+import static gorm.logical.delete.PreQueryListener.USE_DELETED_FILTER
 
 @CompileStatic
 trait LogicalDelete<D> extends GormEntity<D> {
     Boolean deleted = false
 
     static Object withDeleted(Closure closure) {
-        USE_PREQUERY_LISTENER.set(false)
+        USE_DELETED_FILTER.set(false)
         Object closureReturnValue = closure.call()
-        USE_PREQUERY_LISTENER.set(true)
+        USE_DELETED_FILTER.set(true)
         closureReturnValue
     }
 
     static get(final Serializable id) {
-        if (USE_PREQUERY_LISTENER.get()) {
+        if (USE_DELETED_FILTER.get()) {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
@@ -46,7 +46,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
     }
 
     static read(final Serializable id) {
-        if (USE_PREQUERY_LISTENER.get()) {
+        if (USE_DELETED_FILTER.get()) {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
@@ -57,7 +57,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
     }
 
     static load(final Serializable id) {
-        if (USE_PREQUERY_LISTENER.get()) {
+        if (USE_DELETED_FILTER.get()) {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
@@ -68,7 +68,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
     }
 
     static proxy(final Serializable id) {
-        if (USE_PREQUERY_LISTENER.get()) {
+        if (USE_DELETED_FILTER.get()) {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
