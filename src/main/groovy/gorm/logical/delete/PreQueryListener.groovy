@@ -26,9 +26,9 @@ import org.springframework.context.ApplicationListener
 @CompileStatic
 class PreQueryListener implements ApplicationListener<PreQueryEvent> {
 
-    public static final ThreadLocal<Boolean> USE_DELETED_FILTER = new ThreadLocal() {{
+    static final ThreadLocal<Boolean> USE_DELETED_FILTER = new ThreadLocal() { {
         set true
-    }}
+    } }
 
     @Override
     void onApplicationEvent(PreQueryEvent event) {
