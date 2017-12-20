@@ -26,6 +26,8 @@ import org.springframework.context.ApplicationListener
 @CompileStatic
 class PreQueryListener implements ApplicationListener<PreQueryEvent> {
 
+    public static final ThreadLocal<Boolean> USE_PREQUERY_LISTENER = ThreadLocal.withInitial { -> true }
+
     @Override
     void onApplicationEvent(PreQueryEvent event) {
         try {
@@ -35,13 +37,9 @@ class PreQueryListener implements ApplicationListener<PreQueryEvent> {
             if (LogicalDelete.isAssignableFrom(entity.javaClass)) {
                 log.debug "This entity [${entity.javaClass}] implements logical delete"
 
-                // access the variable on the entity to see if we need to include deleted items
-                ThreadLocal usePrequeryListener = (ThreadLocal) entity.javaClass.
-                        getDeclaredField('gorm_logical_delete_LogicalDelete__USE_PREQUERY_LISTENER').get(null)
-                if (usePrequeryListener.get()) {
+                if (USE_PREQUERY_LISTENER.get()) {
                     query.eq('deleted', false)
                 }
-
             }
         } catch (Exception e) {
             log.error(e.message)
