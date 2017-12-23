@@ -1,1 +1,5 @@
 The GORM Logical Delete plugin provides support for utilizing logical deletes for GORM managed entities in a Grails 3 app.
+
+A "logical" delete (sometimes referred to as a "soft" delete) is a delete that doesn't actually delete the relevant
+data but instead marks the data as deleted.  Marking the data as deleted as the benefit of excluding the data from
+queries by default while still maintaining the ability to retrieve the data when/if necessary.
