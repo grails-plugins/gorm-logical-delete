@@ -49,6 +49,8 @@ class WithDeletedTransformation extends AbstractASTTransformation {
          def originalMethod() {
              Boolean $originalValue = PreQueryListener.IGNORE_DELETED_FILTER.get()
              try {
+                 PreQueryListener.IGNORE_DELETED_FILTER.set(true)
+
                  // original method code goes here
              } finally {
                  PreQueryListener.IGNORE_DELETED_FILTER.set($originalValue)
