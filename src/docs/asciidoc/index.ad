@@ -1,4 +1,5 @@
 = GORM Logical Delete {version}
+:author: Nirav Assar <assarn@objectcomputing.com>, Ben Rhine <rhineb@objectcomputing.com>
 :source-highlighter: coderay
 :numbered:
 
