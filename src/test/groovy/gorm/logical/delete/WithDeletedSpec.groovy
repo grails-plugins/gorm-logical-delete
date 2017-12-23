@@ -95,4 +95,35 @@ class WithDeletedSpec extends Specification implements DomainUnitTest<Person> {
         and:
         !PreQueryListener.IGNORE_DELETED_FILTER.get()
     }
+
+    void 'test that nested .withDeleted calls work as expected'() {
+        // One wouldn't directly nest calls to withDeleted intentionally
+        // but a service method could use withDeleted and invoke another service
+        // method which also invokes with deleted, and that could cause a problem
+
+        given:
+        Person.createUsers()
+
+        when:
+        assert Person.count() == 3
+        Person.findByUserName("Ben").delete()
+        Person.findByUserName("Nirav").delete()
+        def results = Person.findAll()
+
+        then: "we should get only deleted=false items"
+        results.size() == 1
+
+        when: "We should get all items - included deleted"
+        results = Person.withDeleted {
+            Person.withDeleted {}
+
+            // make sure the filter is still working after the previous call
+            // to withDeletedl...
+            Person.findAll()
+        }
+
+        then:
+        results.size() == 3
+
+    }
 }
