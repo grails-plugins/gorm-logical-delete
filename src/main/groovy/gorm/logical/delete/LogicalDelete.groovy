@@ -21,60 +21,60 @@ import org.grails.datastore.gorm.GormEnhancer
 import org.grails.datastore.gorm.GormEntity
 import org.grails.datastore.gorm.GormStaticApi
 
-import static gorm.logical.delete.PreQueryListener.USE_DELETED_FILTER
+import static gorm.logical.delete.PreQueryListener.IGNORE_DELETED_FILTER
 
 @CompileStatic
 trait LogicalDelete<D> extends GormEntity<D> {
     Boolean deleted = false
 
     static Object withDeleted(Closure closure) {
-        USE_DELETED_FILTER.set(false)
+        IGNORE_DELETED_FILTER.set(true)
         Object closureReturnValue = closure.call()
-        USE_DELETED_FILTER.set(true)
+        IGNORE_DELETED_FILTER.set(false)
         closureReturnValue
     }
 
     static get(final Serializable id) {
-        if (USE_DELETED_FILTER.get()) {
+        if (IGNORE_DELETED_FILTER.get()) {
+            this.currentGormStaticApi().get(id)
+        } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
             }.get()
-        } else {
-            this.currentGormStaticApi().get(id)
         }
     }
 
     static read(final Serializable id) {
-        if (USE_DELETED_FILTER.get()) {
+        if (IGNORE_DELETED_FILTER.get()) {
+            this.currentGormStaticApi().read(id)
+        } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
             }.get()
-        } else {
-            this.currentGormStaticApi().read(id)
         }
     }
 
     static load(final Serializable id) {
-        if (USE_DELETED_FILTER.get()) {
+        if (IGNORE_DELETED_FILTER.get()) {
+            this.currentGormStaticApi().load(id)
+        } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
             }.get()
-        } else {
-            this.currentGormStaticApi().load(id)
         }
     }
 
     static proxy(final Serializable id) {
-        if (USE_DELETED_FILTER.get()) {
+        if (IGNORE_DELETED_FILTER.get()) {
+            this.currentGormStaticApi().proxy(id)
+        } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
                 eq 'deleted', false
             }.get()
-        } else {
-            this.currentGormStaticApi().proxy(id)
         }
     }
 

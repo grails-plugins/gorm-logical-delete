@@ -26,9 +26,7 @@ import org.springframework.context.ApplicationListener
 @CompileStatic
 class PreQueryListener implements ApplicationListener<PreQueryEvent> {
 
-    static final ThreadLocal<Boolean> USE_DELETED_FILTER = new ThreadLocal() { {
-        set true
-    } }
+    static final ThreadLocal<Boolean> IGNORE_DELETED_FILTER = new ThreadLocal()
 
     @Override
     void onApplicationEvent(PreQueryEvent event) {
@@ -39,7 +37,7 @@ class PreQueryListener implements ApplicationListener<PreQueryEvent> {
             if (LogicalDelete.isAssignableFrom(entity.javaClass)) {
                 log.debug "This entity [${entity.javaClass}] implements logical delete"
 
-                if (USE_DELETED_FILTER.get()) {
+                if (!IGNORE_DELETED_FILTER.get()) {
                     query.eq('deleted', false)
                 }
             }
