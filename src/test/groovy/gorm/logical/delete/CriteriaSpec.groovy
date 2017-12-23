@@ -1,5 +1,7 @@
 package gorm.logical.delete
 
+import gorm.logical.delete.test.Person
+import gorm.logical.delete.test.PersonTestData
 import grails.gorm.transactions.Rollback
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
@@ -7,7 +9,7 @@ import spock.lang.Specification
 /**
  * This test suite focuses on the behavior of criteria API in collaboration with the PreQuery Listener
  */
-class CriteriaSpec extends Specification implements DomainUnitTest<Person> {
+class CriteriaSpec extends Specification implements DomainUnitTest<Person>, PersonTestData {
 
     Closure doWithSpring() { { ->
             queryListener PreQueryListener
@@ -18,9 +20,6 @@ class CriteriaSpec extends Specification implements DomainUnitTest<Person> {
 
     @Rollback
     void 'test criteria - logical deleted items'() {
-        given:
-        Person.createUsers()
-
         // where detachedCriteria Call
         when:
         assert Person.count() == 3
@@ -51,9 +50,6 @@ class CriteriaSpec extends Specification implements DomainUnitTest<Person> {
 
     @Rollback
     void 'test criteria with projection - logical deleted items'() {
-        given:
-        Person.createUsers()
-
         // projection Call
         when:
         assert Person.count() == 3

@@ -1,5 +1,7 @@
 package gorm.logical.delete
 
+import gorm.logical.delete.test.Person
+import gorm.logical.delete.test.PersonTestData
 import grails.gorm.DetachedCriteria
 import grails.gorm.transactions.Rollback
 import grails.testing.gorm.DomainUnitTest
@@ -8,7 +10,7 @@ import spock.lang.Specification
 /**
  * This test suite focuses on the withDeleted implementation so the api can retrieve deleted items in queries
  */
-class WithDeletedSpec extends Specification implements DomainUnitTest<Person> {
+class WithDeletedSpec extends Specification implements DomainUnitTest<Person>, PersonTestData {
 
     Closure doWithSpring() {
         { ->
@@ -20,9 +22,6 @@ class WithDeletedSpec extends Specification implements DomainUnitTest<Person> {
 
     @Rollback
     void 'test withDeleted findAll - logical deleted items'() {
-        given:
-        Person.createUsers()
-
         when:
         assert Person.count() == 3
         Person.findByUserName("Ben").delete()
@@ -41,9 +40,6 @@ class WithDeletedSpec extends Specification implements DomainUnitTest<Person> {
 
     @Rollback
     void 'test withDeleted detached criteria'() {
-        given:
-        Person.createUsers()
-
         when:
         assert Person.count() == 3
         Person.findByUserName("Ben").delete()
@@ -61,9 +57,6 @@ class WithDeletedSpec extends Specification implements DomainUnitTest<Person> {
 
     @Rollback
     void 'test withDeleted criteria'() {
-        given:
-        Person.createUsers()
-
         when:
         assert Person.count() == 3
         Person.findByUserName("Ben").delete()
@@ -100,10 +93,6 @@ class WithDeletedSpec extends Specification implements DomainUnitTest<Person> {
         // One wouldn't directly nest calls to withDeleted intentionally
         // but a service method could use withDeleted and invoke another service
         // method which also invokes with deleted, and that could cause a problem
-
-        given:
-        Person.createUsers()
-
         when:
         assert Person.count() == 3
         Person.findByUserName("Ben").delete()

@@ -1,7 +1,8 @@
 package gorm.logical.delete
 
+import gorm.logical.delete.test.Person
+import gorm.logical.delete.test.PersonTestData
 import grails.gorm.DetachedCriteria
-import grails.gorm.annotation.Entity
 import grails.gorm.transactions.Rollback
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
@@ -9,7 +10,7 @@ import spock.lang.Specification
 /**
  * This test suite focuses on the behavior of detached criteria in collaboration with the PreQuery Listener
  */
-class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Person> {
+class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Person>, PersonTestData {
 
     Closure doWithSpring() { { ->
             queryListener PreQueryListener
@@ -20,9 +21,6 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
 
     @Rollback
     void 'test detached criteria where - logical deleted items'() {
-        given:
-        Person.createUsers()
-
         // where detachedCriteria Call
         when:
         assert Person.count() == 3
@@ -51,9 +49,6 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
 
     @Rollback
     void 'test detached criteria findAll - logical deleted items'() {
-        given:
-        Person.createUsers()
-
         // findAll detachedCriteria Call
         when:
         assert Person.count() == 3
@@ -75,28 +70,9 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
         results
         results[0].userName == 'Jeff'
     }
-}
-
-/**************** GORM Entity *****************************/
-
-@Entity
-class Person implements LogicalDelete {
-    String userName
-
-    String toString() {
-        "$userName"
-    }
-
-    static mapping = {
-        deleted column:"delFlag"
-    }
 
     /********************* setup *****************************/
-
-    static List<Person> createUsers() {
-        def ben = new Person(userName: "Ben").save(flush: true)
-        def nirav = new Person(userName: "Nirav").save(flush: true)
-        def jeff = new Person(userName: "Jeff").save(flush: true)
-        [ben, nirav, jeff]
-    }
 }
+
+
+

@@ -1,5 +1,7 @@
 package gorm.logical.delete
 
+import gorm.logical.delete.test.Person
+import gorm.logical.delete.test.PersonTestData
 import grails.gorm.transactions.Rollback
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
@@ -8,7 +10,7 @@ import spock.lang.Specification
  * This test suite focuses on how the deleted field in a LogicalDelete implementation gets changed from overridded delete()
  * operations. The get(
  */
-class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> {
+class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person>, PersonTestData {
 
     Closure doWithSpring() { { ->
             queryListener PreQueryListener
@@ -19,9 +21,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical delete flush - get'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.get(1)
 
@@ -39,9 +38,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical delete - get'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.get(1)
 
@@ -58,9 +54,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical hard delete - get'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.get(1)
 
@@ -79,9 +72,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical delete flush - load'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.load(1)
 
@@ -99,9 +89,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical delete - load'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.load(1)
 
@@ -118,9 +105,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical hard delete - load'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.load(1)
 
@@ -139,9 +123,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical delete flush - proxy'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.proxy(1)
 
@@ -159,9 +140,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical delete - proxy'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.proxy(1)
 
@@ -178,9 +156,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical hard delete - proxy'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.proxy(1)
 
@@ -199,9 +174,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical delete flush - read'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.read(1)
 
@@ -219,9 +191,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical delete - read'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.read(1)
 
@@ -238,9 +207,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical hard delete - read'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.read(1)
 
@@ -259,9 +225,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical unDelete flush'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.get(1)
         p.delete()
@@ -281,9 +244,6 @@ class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person> 
 
     @Rollback
     void 'test logical unDelete'() {
-        given:
-        Person.createUsers()
-
         when:
         Person p = Person.get(1)
         p.delete()

@@ -1,5 +1,7 @@
 package gorm.logical.delete
 
+import gorm.logical.delete.test.Person
+import gorm.logical.delete.test.PersonTestData
 import grails.gorm.transactions.Rollback
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
@@ -7,7 +9,7 @@ import spock.lang.Specification
 /**
  * This test suite focuses on the behavior of dynamic finders in collaboration with the PreQuery Listener
  */
-class DynamicFindersSpec extends Specification implements DomainUnitTest<Person> {
+class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>, PersonTestData {
 
     Closure doWithSpring() { { ->
             queryListener PreQueryListener
@@ -18,9 +20,6 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>
 
     @Rollback
     void 'test dynamic findAll hide logical deleted items'() {
-        given:
-        Person.createUsers()
-
         // findAll() Call
         when:
         assert Person.count() == 3
@@ -46,9 +45,6 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>
 
     @Rollback
     void 'test dynamic findByUserName hide logical deleted items'() {
-        given:
-        Person.createUsers()
-
         // findByUserName() Call
         when:
         assert Person.count() == 3
@@ -66,9 +62,6 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>
 
     @Rollback
     void 'test dynamic findByDeleted hide logical deleted items'() {
-        given:
-        Person.createUsers()
-
         // findByDeleted() Call
         when:
         assert Person.count() == 3
@@ -92,9 +85,6 @@ class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>
 
     @Rollback
     void 'test dynamic get() finds logical deleted items'() {
-        given:
-        Person.createUsers()
-
         when: "when 'get()' is used, we cannot access logically deleted entities"
         assert Person.count() == 3
         Person.findByUserName("Ben").delete()
