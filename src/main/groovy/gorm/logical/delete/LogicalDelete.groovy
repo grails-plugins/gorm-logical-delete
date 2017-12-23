@@ -28,10 +28,12 @@ trait LogicalDelete<D> extends GormEntity<D> {
     Boolean deleted = false
 
     static Object withDeleted(Closure closure) {
-        IGNORE_DELETED_FILTER.set(true)
-        Object closureReturnValue = closure.call()
-        IGNORE_DELETED_FILTER.set(false)
-        closureReturnValue
+        try {
+            IGNORE_DELETED_FILTER.set(true)
+            return closure.call()
+        } finally {
+            IGNORE_DELETED_FILTER.set(false)
+        }
     }
 
     static get(final Serializable id) {

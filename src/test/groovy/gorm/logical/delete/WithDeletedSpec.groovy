@@ -82,4 +82,17 @@ class WithDeletedSpec extends Specification implements DomainUnitTest<Person> {
         results.size() == 2
 
     }
+
+    void 'test that the thread local is restored to false even if the closure throws an exception'() {
+        when:
+        Person.withDeleted {
+            throw new IllegalStateException()
+        }
+
+        then:
+        thrown IllegalStateException
+
+        and:
+        !PreQueryListener.IGNORE_DELETED_FILTER.get()
+    }
 }
