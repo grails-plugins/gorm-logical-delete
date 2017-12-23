@@ -66,6 +66,7 @@ grailsPublish {
 
 groovydoc.docTitle = "GORM Logical Delete ${project.version}"
 groovydoc.destinationDir = new File(buildDir, 'docs/api')
+groovydoc.noTimestamp = true
 
 asciidoctor.outputDir = new File(buildDir, 'docs')
 asciidoctor.separateOutputDirs = false
