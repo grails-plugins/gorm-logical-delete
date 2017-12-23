@@ -427,12 +427,37 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="paragraph">
-<p>The GORM Logical Delete plugin provides support for utilizing logical deletes for GORM managed entities in a Grails 3 app.</p>
+<p>Most queries will by default automatically exclude logically deleted records from their results.</p>
 </div>
 <div class="paragraph">
-<p>A "logical" delete (sometimes referred to as a "soft" delete) is a delete that doesn&#8217;t actually delete the relevant
-data but instead marks the data as deleted.  Marking the data as deleted as the benefit of excluding the data from
-queries by default while still maintaining the ability to retrieve the data when/if necessary.</p>
+<p>A query authored like this&#8230;&#8203;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">results = Person.findAll {
+    userName == 'Robert'
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Is executed as if it had been written like this&#8230;&#8203;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">results = Person.findAll {
+    userName == 'Robert'
+    deleted == false
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For cases where you would like logically deleted records to be included in query results queries may be
+wrapped in a call to <code>withDeleted</code> as shown below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">results = Person.withDeleted { Person.findAll() }</code></pre>
+</div>
 </div>
 </div>
 <div id="footer">

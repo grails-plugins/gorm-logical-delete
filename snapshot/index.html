@@ -522,7 +522,8 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_introduction">1. Introduction</a></li>
 <li><a href="#_installation">2. Installation</a></li>
 <li><a href="#_logicaldelete_trait">3. LogicalDelete Trait</a></li>
-<li><a href="#_api_documentation">4. API Documentation</a></li>
+<li><a href="#_queries">4. Queries</a></li>
+<li><a href="#_api_documentation">5. API Documentation</a></li>
 </ul>
 </div>
 </div>
@@ -563,10 +564,63 @@ participate in logical deletes.  The trait adds a boolean persistent property na
 When this property has a value of <code>true</code>, that indicates that the record has been logically deleted and as such
 will be excluded from query results by default.</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">gorm.logical.delete.LogicalDelete</span>
+
+<span class="type">class</span> <span class="class">Person</span> <span class="directive">implements</span> LogicalDelete&lt;Person&gt; {
+    <span class="predefined-type">String</span> userName
+
+    <span class="directive">static</span> mapping = {
+        <span class="comment">// the deleted property may be configured</span>
+        <span class="comment">// like any other persistent property...</span>
+        deleted <span class="key">column</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">delFlag</span><span class="delimiter">&quot;</span></span>
+    }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_api_documentation">4. API Documentation</h2>
+<h2 id="_queries">4. Queries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Most queries will by default automatically exclude logically deleted records from their results.</p>
+</div>
+<div class="paragraph">
+<p>A query authored like this&#8230;&#8203;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">results = Person.findAll {
+    userName == <span class="string"><span class="delimiter">'</span><span class="content">Robert</span><span class="delimiter">'</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Is executed as if it had been written like this&#8230;&#8203;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">results = Person.findAll {
+    userName == <span class="string"><span class="delimiter">'</span><span class="content">Robert</span><span class="delimiter">'</span></span>
+    deleted == <span class="predefined-constant">false</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For cases where you would like logically deleted records to be included in query results queries may be
+wrapped in a call to <code>withDeleted</code> as shown below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">results = Person.withDeleted { Person.findAll() }</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_api_documentation">5. API Documentation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>API documentation may be found <a href="api/index.html">here</a>.</p>
@@ -576,7 +630,7 @@ will be excluded from query results by default.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-12-23 17:42:34 +00:00
+Last updated 2017-12-23 18:30:35 +00:00
 </div>
 </div>
 </body>

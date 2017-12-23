@@ -433,10 +433,25 @@ participate in logical deletes.  The trait adds a boolean persistent property na
 When this property has a value of <code>true</code>, that indicates that the record has been logically deleted and as such
 will be excluded from query results by default.</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import gorm.logical.delete.LogicalDelete
+
+class Person implements LogicalDelete&lt;Person&gt; {
+    String userName
+
+    static mapping = {
+        // the deleted property may be configured
+        // like any other persistent property...
+        deleted column:"delFlag"
+    }
+}</code></pre>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-12-23 17:42:34 +00:00
+Last updated 2017-12-23 18:30:35 +00:00
 </div>
 </div>
 </body>
