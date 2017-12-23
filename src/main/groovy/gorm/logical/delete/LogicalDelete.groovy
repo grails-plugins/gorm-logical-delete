@@ -37,7 +37,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
         }
     }
 
-    static get(final Serializable id) {
+    static D get(final Serializable id) {
         if (IGNORE_DELETED_FILTER.get()) {
             this.currentGormStaticApi().get(id)
         } else {
@@ -48,7 +48,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
         }
     }
 
-    static read(final Serializable id) {
+    static D read(final Serializable id) {
         if (IGNORE_DELETED_FILTER.get()) {
             this.currentGormStaticApi().read(id)
         } else {
@@ -59,7 +59,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
         }
     }
 
-    static load(final Serializable id) {
+    static D load(final Serializable id) {
         if (IGNORE_DELETED_FILTER.get()) {
             this.currentGormStaticApi().load(id)
         } else {
@@ -70,7 +70,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
         }
     }
 
-    static proxy(final Serializable id) {
+    static D proxy(final Serializable id) {
         if (IGNORE_DELETED_FILTER.get()) {
             this.currentGormStaticApi().proxy(id)
         } else {
