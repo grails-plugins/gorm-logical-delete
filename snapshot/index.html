@@ -5,8 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<meta name="author" content="Jeff Scott Brown">
-<title>GORM Logical Delete 2.0.0.M2</title>
+<title>GORM Logical Delete 2.0.0.BUILD-SNAPSHOT</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -512,17 +511,14 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>GORM Logical Delete 2.0.0.M2</h1>
-<div class="details">
-<span id="author" class="author">Jeff Scott Brown</span><br>
-<span id="email" class="email"><a href="mailto:brownj@objectcomputing.com">brownj@objectcomputing.com</a></span><br>
-</div>
+<h1>GORM Logical Delete 2.0.0.BUILD-SNAPSHOT</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_introduction">1. Introduction</a></li>
 <li><a href="#_installation">2. Installation</a></li>
-<li><a href="#_api_documentation">3. API Documentation</a></li>
+<li><a href="#_logicaldelete_trait">3. LogicalDelete Trait</a></li>
+<li><a href="#_api_documentation">4. API Documentation</a></li>
 </ul>
 </div>
 </div>
@@ -532,6 +528,11 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sectionbody">
 <div class="paragraph">
 <p>The GORM Logical Delete plugin provides support for utilizing logical deletes for GORM managed entities in a Grails 3 app.</p>
+</div>
+<div class="paragraph">
+<p>A "logical" delete (sometimes referred to as a "soft" delete) is a delete that doesn&#8217;t actually delete the relevant
+data but instead marks the data as deleted.  Marking the data as deleted as the benefit of excluding the data from
+queries by default while still maintaining the ability to retrieve the data when/if necessary.</p>
 </div>
 </div>
 </div>
@@ -543,13 +544,25 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">compile "org.grails.plugins:gorm-logical-delete:2.0.0.M2"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">compile "org.grails.plugins:gorm-logical-delete:2.0.0.BUILD-SNAPSHOT"</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_api_documentation">3. API Documentation</h2>
+<h2 id="_logicaldelete_trait">3. LogicalDelete Trait</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The plugin provides the <a href="api/gorm/logical/delete/LogicalDelete.html">gorm.logical.delete.LogicalDelete</a>
+trait which can applied to a domain class to indicate that the domain class should
+participate in logical deletes.  The trait adds a boolean persistent property named <code>deleted</code> to the domain class.
+When this property has a value of <code>true</code>, that indicates that the record has been logically deleted and as such
+will be excluded from query results by default.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_api_documentation">4. API Documentation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>API documentation may be found <a href="api/index.html">here</a>.</p>
@@ -559,7 +572,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-12-23 16:30:30 +00:00
+Last updated 2017-12-23 17:32:45 +00:00
 </div>
 </div>
 </body>

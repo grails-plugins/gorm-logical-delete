@@ -427,12 +427,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="paragraph">
-<p>To add the GORM Logical Delete plugin to an application add the following dependency to the dependencies block of your build.gradle:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">compile "org.grails.plugins:gorm-logical-delete:2.0.0.BUILD-SNAPSHOT"</code></pre>
-</div>
+<p>The plugin provides the <a href="api/gorm/logical/delete/LogicalDelete.html">gorm.logical.delete.LogicalDelete</a>
+trait which can applied to a domain class to indicate that the domain class should
+participate in logical deletes.  The trait adds a boolean persistent property named <code>deleted</code> to the domain class.
+When this property has a value of <code>true</code>, that indicates that the record has been logically deleted and as such
+will be excluded from query results by default.</p>
 </div>
 </div>
 <div id="footer">
