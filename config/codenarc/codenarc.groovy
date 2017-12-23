@@ -303,7 +303,7 @@ ruleset {
     ParameterName
     PropertyName
     VariableName {
-        //finalRegex = /^[a-z][a-zA-Z0-9]*$/
+        finalRegex = /^[a-z][a-zA-Z0-9]*$/
     }
 
     // rulesets/security.xml
