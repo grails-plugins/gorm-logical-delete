@@ -32,7 +32,10 @@ class WithDeletedSpec extends Specification implements DomainUnitTest<Person>, P
         results.size() == 1
 
         when: "We should get all items - included deleted"
+
+        // tag::find_all_with_deleted[]
         results = Person.withDeleted { Person.findAll() }
+        // end::find_all_with_deleted[]
 
         then:
         results.size() == 3

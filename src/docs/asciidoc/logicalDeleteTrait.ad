@@ -3,3 +3,8 @@ trait which can applied to a domain class to indicate that the domain class shou
 participate in logical deletes.  The trait adds a boolean persistent property named `deleted` to the domain class.
 When this property has a value of `true`, that indicates that the record has been logically deleted and as such
 will be excluded from query results by default.
+
+[source,groovy]
+----
+include::{projectdir}/src/test/groovy/gorm/logical/delete/test/Person.groovy[tags=person_class,indent=0]
+----

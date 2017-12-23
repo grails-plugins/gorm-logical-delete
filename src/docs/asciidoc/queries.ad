@@ -1,0 +1,29 @@
+Most queries will by default automatically exclude logically deleted records from their results.
+
+A query authored like this...
+
+[source,groovy]
+----
+results = Person.findAll {
+    userName == 'Robert'
+}
+----
+
+Is executed as if it had been written like this...
+
+[source,groovy]
+----
+results = Person.findAll {
+    userName == 'Robert'
+    deleted == false
+}
+----
+
+For cases where you would like logically deleted records to be included in query results queries may be
+wrapped in a call to `withDeleted` as shown below.
+
+[source,groovy]
+----
+include::{projectdir}/src/test/groovy/gorm/logical/delete/WithDeletedSpec.groovy[tags=find_all_with_deleted,indent=0]
+----
+

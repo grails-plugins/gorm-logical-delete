@@ -15,6 +15,10 @@ include::installation.ad[]
 
 include::logicalDeleteTrait.ad[]
 
+== Queries
+
+include::queries.ad[]
+
 == API Documentation
 
 API documentation may be found link:api/index.html[here].
