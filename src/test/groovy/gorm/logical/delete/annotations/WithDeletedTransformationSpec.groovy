@@ -8,7 +8,7 @@ import spock.lang.Specification
 
 class WithDeletedTransformationSpec extends Specification implements DomainUnitTest<Person>, PersonTestData {
 
-    void 'test method marked with @WithDelted includes logically deleted results'() {
+    void 'test method marked with @WithDeleted includes logically deleted results'() {
         setup:
         def helper = new PersonHelper()
 
