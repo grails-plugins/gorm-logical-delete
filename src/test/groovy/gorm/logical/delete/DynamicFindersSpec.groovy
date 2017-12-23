@@ -11,11 +11,6 @@ import spock.lang.Specification
  */
 class DynamicFindersSpec extends Specification implements DomainUnitTest<Person>, PersonTestData {
 
-    Closure doWithSpring() { { ->
-            queryListener PreQueryListener
-        }
-    }
-
     /******************* test FindAll ***********************************/
 
     @Rollback

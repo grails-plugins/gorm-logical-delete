@@ -11,11 +11,6 @@ import spock.lang.Specification
  */
 class CriteriaSpec extends Specification implements DomainUnitTest<Person>, PersonTestData {
 
-    Closure doWithSpring() { { ->
-            queryListener PreQueryListener
-        }
-    }
-
     /******************* test criteria ***********************************/
 
     @Rollback

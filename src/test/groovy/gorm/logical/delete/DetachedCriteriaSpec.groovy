@@ -12,11 +12,6 @@ import spock.lang.Specification
  */
 class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Person>, PersonTestData {
 
-    Closure doWithSpring() { { ->
-            queryListener PreQueryListener
-        }
-    }
-
     /******************* test where ***********************************/
 
     @Rollback

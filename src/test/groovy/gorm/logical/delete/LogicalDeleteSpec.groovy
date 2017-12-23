@@ -12,11 +12,6 @@ import spock.lang.Specification
  */
 class LogicalDeleteSpec extends Specification implements DomainUnitTest<Person>, PersonTestData {
 
-    Closure doWithSpring() { { ->
-            queryListener PreQueryListener
-        }
-    }
-
     /******************* delete tests - (w/ get) ***********************************/
 
     @Rollback

@@ -1,9 +1,16 @@
 package gorm.logical.delete.test
 
+import gorm.logical.delete.PreQueryListener
 import org.junit.After
 import org.junit.Before
 
 trait PersonTestData {
+
+    Closure doWithSpring() {
+        { ->
+            queryListener PreQueryListener
+        }
+    }
 
     @Before
     void createUsers() {
