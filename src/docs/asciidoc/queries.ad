@@ -27,3 +27,4 @@ wrapped in a call to `withDeleted` as shown below.
 include::{projectdir}/src/test/groovy/gorm/logical/delete/WithDeletedSpec.groovy[tags=find_all_with_deleted,indent=0]
 ----
 
+NOTE: TBD - need to document which, if any, query techniques do not participate (HQL?)
