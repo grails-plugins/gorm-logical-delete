@@ -31,13 +31,19 @@ import org.codehaus.groovy.syntax.Token
 import org.codehaus.groovy.syntax.Types
 import org.codehaus.groovy.transform.AbstractASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformation
+import org.grails.datastore.gorm.transactions.transform.TransactionalTransform
+import org.grails.datastore.mapping.core.Ordered
 
 @CompileStatic
-@GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
-class WithDeletedTransformation extends AbstractASTTransformation {
+@GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
+class WithDeletedTransformation extends AbstractASTTransformation implements Ordered {
 
     static final String IGNORE_DELETED__FILTER_PROPERTY_NAME = 'IGNORE_DELETED_FILTER'
     static final String FILTER_PROPERTY_VALUE_VARIABLE_NAME = '$originalValue'
+
+    int getOrder() {
+        TransactionalTransform.POSITION + 100
+    }
 
     @Override
     void visit(ASTNode[] nodes, SourceUnit source) {
@@ -60,6 +66,10 @@ class WithDeletedTransformation extends AbstractASTTransformation {
          *
          */
         MethodNode methodNode = (MethodNode) nodes[1]
+
+        if (methodNode.isAbstract()) {
+            return
+        }
 
         Statement originalCode = methodNode.code
 
