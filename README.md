@@ -48,7 +48,7 @@ If you wish to use a non default column name or a different default value you ca
 mapping closure.
 
 ```
-class Person implements LocicalDelete {
+class Person implements LogicalDelete {
     String userName
     
     static mapping = {
