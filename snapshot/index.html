@@ -522,8 +522,23 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_introduction">1. Introduction</a></li>
 <li><a href="#_installation">2. Installation</a></li>
 <li><a href="#_logicaldelete_trait">3. LogicalDelete Trait</a></li>
-<li><a href="#_queries">4. Queries</a></li>
-<li><a href="#_api_documentation">5. API Documentation</a></li>
+<li><a href="#_deleting_objects">4. Deleting Objects</a></li>
+<li><a href="#_queries">5. Queries</a>
+<ul class="sectlevel2">
+<li><a href="#_criteria_query">5.1. Criteria Query</a></li>
+<li><a href="#_detached_criteria_query">5.2. Detached Criteria Query</a></li>
+<li><a href="#_gorm_methods">5.3. GORM methods</a></li>
+</ul>
+</li>
+<li><a href="#_withdeleted_annotation">6. WithDeleted Annotation</a></li>
+<li><a href="#_implementation_annotation">7. Implementation Annotation</a>
+<ul class="sectlevel2">
+<li><a href="#_logicaldelete_trait_2">7.1. LogicalDelete Trait</a></li>
+<li><a href="#_prequerylistener">7.2. PreQueryListener</a></li>
+<li><a href="#_spock_tests">7.3. Spock Tests</a></li>
+</ul>
+</li>
+<li><a href="#_api_documentation">8. API Documentation</a></li>
 </ul>
 </div>
 </div>
@@ -537,7 +552,9 @@ table.CodeRay td.code>pre{padding:0}
 <div class="paragraph">
 <p>A "logical" delete (sometimes referred to as a "soft" delete) is a delete that doesn&#8217;t actually delete the relevant
 data but instead marks the data as deleted.  Marking the data as deleted as the benefit of excluding the data from
-queries by default while still maintaining the ability to retrieve the data when/if necessary.</p>
+queries by default while still maintaining the ability to retrieve the data when/if necessary. Essentially the plugin offers
+a mechanism to "hide" domain objects from retrieval. This is useful for retaining data without having it clutter the current
+set of active data.</p>
 </div>
 </div>
 </div>
@@ -559,9 +576,9 @@ queries by default while still maintaining the ability to retrieve the data when
 <div class="sectionbody">
 <div class="paragraph">
 <p>The plugin provides the <a href="api/gorm/logical/delete/LogicalDelete.html">gorm.logical.delete.LogicalDelete</a>
-trait which can applied to a domain class to indicate that the domain class should
+trait which can applied to any domain class to indicate that the domain class should
 participate in logical deletes.  The trait adds a boolean persistent property named <code>deleted</code> to the domain class.
-When this property has a value of <code>true</code>, that indicates that the record has been logically deleted and as such
+When this property has a value of <code>true</code>, it indicates that the record has been logically deleted and as such
 will be excluded from query results by default.</p>
 </div>
 <div class="listingblock">
@@ -582,13 +599,45 @@ will be excluded from query results by default.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_queries">4. Queries</h2>
+<h2 id="_deleting_objects">4. Deleting Objects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Deleting a domain object that implements the <a href="api/gorm/logical/delete/LogicalDelete.html">gorm.logical.delete.LogicalDelete</a> trait
+is simple as calling <code>delete()</code>. This will mark the <code>deleted</code> field to <code>true</code> and all queries for that domain object will
+hide the item from its result set.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">Person p = <span class="keyword">new</span> Person(<span class="key">userName</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Nirav</span><span class="delimiter">&quot;</span></span>).save(<span class="key">flush</span>: <span class="predefined-constant">true</span>)
+p.delete(<span class="key">flush</span>:<span class="predefined-constant">true</span>)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In order to reverse the <code>deleted</code> field use <code>unDelete()</code>. . .</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">p.unDelete(<span class="key">flush</span>: <span class="predefined-constant">true</span>)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you would like to physically delete the record from persistence, use the attribute <code>hard: true</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">p.delete(<span class="key">hard</span>: <span class="predefined-constant">true</span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_queries">5. Queries</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Most queries will by default automatically exclude logically deleted records from their results.</p>
 </div>
 <div class="paragraph">
-<p>A query authored like this&#8230;&#8203;</p>
+<p>A dynamic finder query authored like this&#8230;&#8203;</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -609,30 +658,116 @@ will be excluded from query results by default.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>For cases where you would like logically deleted records to be included in query results queries may be
-wrapped in a call to <code>withDeleted</code> as shown below.</p>
+<p>For cases where you would like logically deleted records to be included in query results, queries may be
+wrapped in a call to <code>withDeleted</code> as shown below. Any query can be wrapped with the <code>withDeleted</code> closure.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">results = Person.withDeleted { Person.findAll() }</code></pre>
 </div>
 </div>
-<div class="admonitionblock note">
+<div class="paragraph">
+<p>The plugin supports a variety of query types in addition to dynamic finders, see examples below:</p>
+</div>
+<div class="sect2">
+<h3 id="_criteria_query">5.1. Criteria Query</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> criteria = Person.createCriteria()
+<span class="keyword">def</span> results = criteria {
+    or {
+        eq(<span class="string"><span class="delimiter">&quot;</span><span class="content">userName</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Ben</span><span class="delimiter">&quot;</span></span>)
+        eq(<span class="string"><span class="delimiter">&quot;</span><span class="content">userName</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Nirav</span><span class="delimiter">&quot;</span></span>)
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_detached_criteria_query">5.2. Detached Criteria Query</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">DetachedCriteria&lt;Person&gt; query = Person.where {
+    userName == <span class="string"><span class="delimiter">&quot;</span><span class="content">Ben</span><span class="delimiter">&quot;</span></span> || userName == <span class="string"><span class="delimiter">&quot;</span><span class="content">Nirav</span><span class="delimiter">&quot;</span></span>
+}
+<span class="keyword">def</span> results = query.list()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gorm_methods">5.3. GORM methods</h3>
+<div class="paragraph">
+<p>The standard <code>GormEntity&lt;D&gt;</code> methods of <code>get</code>, <code>load</code>, <code>proxy</code>, <code>read</code> are also supported for logical delete.</p>
+</div>
+<div class="admonitionblock warning">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-TBD - need to document which, if any, query techniques do not participate (HQL?)
+Hibernate Criteria and HQL queries are NOT supported by this plugin.
 </td>
 </tr>
 </table>
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="_api_documentation">5. API Documentation</h2>
+<h2 id="_withdeleted_annotation">6. WithDeleted Annotation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>@WithDeleted</code> annotation allows you to mark a method on a class so that queries within the method will retrieve logically
+deleted entities. This is an alternate solution to using the <code>withDeleted</code> closure. Ths is useful in conjuction for Gorm Data Services, or
+any classes that act as DAOs.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="annotation">@Service</span>(Person)
+<span class="type">interface</span> PersonService {
+
+    <span class="predefined-type">List</span>&lt;Person&gt; listPeople()
+
+    <span class="annotation">@WithDeleted</span>
+    <span class="predefined-type">List</span>&lt;Person&gt; listPeopleWithDeleted()
+
+    <span class="type">void</span> delete(<span class="predefined-type">Serializable</span> id)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_implementation_annotation">7. Implementation Annotation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is a brief overview on the implementation of the gorm-logical-delete plugin.</p>
+</div>
+<div class="sect2">
+<h3 id="_logicaldelete_trait_2">7.1. LogicalDelete Trait</h3>
+<div class="paragraph">
+<p>The <a href="api/gorm/logical/delete/LogicalDelete.html">gorm.logical.delete.LogicalDelete</a> trait establishes the <code>deleted</code> field
+and also overrides methods that will implement the query and delete functionality.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prequerylistener">7.2. PreQueryListener</h3>
+<div class="paragraph">
+<p>The <a href="api/gorm/logical/delete/PreQueryListener.html">gorm.logical.delete.PreQueryListener</a> listens for a query event and
+appropriately adds to the existing query in order to hide deleted items.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_spock_tests">7.3. Spock Tests</h3>
+<div class="paragraph">
+<p>The spock tests contained in the plugin are a good resource to reference examples and usages of the plugin API.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_api_documentation">8. API Documentation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>API documentation may be found <a href="api/index.html">here</a>.</p>
@@ -642,7 +777,7 @@ TBD - need to document which, if any, query techniques do not participate (HQL?)
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-12-24 00:45:36 +00:00
+Last updated 2018-01-31 21:44:48 +00:00
 </div>
 </div>
 </body>

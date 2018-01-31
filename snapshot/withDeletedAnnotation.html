@@ -427,11 +427,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="paragraph">
-<p>To add the GORM Logical Delete plugin to an application add the following dependency to the dependencies block of your build.gradle:</p>
+<p>The <code>@WithDeleted</code> annotation allows you to mark a method on a class so that queries within the method will retrieve logically
+deleted entities. This is an alternate solution to using the <code>withDeleted</code> closure. Ths is useful in conjuction for Gorm Data Services, or
+any classes that act as DAOs.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">compile "org.grails.plugins:gorm-logical-delete:2.0.0.BUILD-SNAPSHOT"</code></pre>
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">@Service(Person)
+interface PersonService {
+
+    List&lt;Person&gt; listPeople()
+
+    @WithDeleted
+    List&lt;Person&gt; listPeopleWithDeleted()
+
+    void delete(Serializable id)
+}</code></pre>
 </div>
 </div>
 </div>

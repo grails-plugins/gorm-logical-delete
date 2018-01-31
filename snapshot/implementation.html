@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>Untitled</title>
+<title>LogicalDelete Trait</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -422,16 +422,35 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
-
+<ul class="sectlevel2">
+<li><a href="#_logicaldelete_trait">LogicalDelete Trait</a></li>
+<li><a href="#_prequerylistener">PreQueryListener</a></li>
+<li><a href="#_spock_tests">Spock Tests</a></li>
+</ul>
 </div>
 </div>
 <div id="content">
 <div class="paragraph">
-<p>To add the GORM Logical Delete plugin to an application add the following dependency to the dependencies block of your build.gradle:</p>
+<p>This is a brief overview on the implementation of the gorm-logical-delete plugin.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">compile "org.grails.plugins:gorm-logical-delete:2.0.0.BUILD-SNAPSHOT"</code></pre>
+<div class="sect2">
+<h3 id="_logicaldelete_trait">LogicalDelete Trait</h3>
+<div class="paragraph">
+<p>The <a href="api/gorm/logical/delete/LogicalDelete.html">gorm.logical.delete.LogicalDelete</a> trait establishes the <code>deleted</code> field
+and also overrides methods that will implement the query and delete functionality.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prequerylistener">PreQueryListener</h3>
+<div class="paragraph">
+<p>The <a href="api/gorm/logical/delete/PreQueryListener.html">gorm.logical.delete.PreQueryListener</a> listens for a query event and
+appropriately adds to the existing query in order to hide deleted items.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_spock_tests">Spock Tests</h3>
+<div class="paragraph">
+<p>The spock tests contained in the plugin are a good resource to reference examples and usages of the plugin API.</p>
 </div>
 </div>
 </div>

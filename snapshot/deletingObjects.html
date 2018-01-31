@@ -427,11 +427,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="paragraph">
-<p>To add the GORM Logical Delete plugin to an application add the following dependency to the dependencies block of your build.gradle:</p>
+<p>Deleting a domain object that implements the <a href="api/gorm/logical/delete/LogicalDelete.html">gorm.logical.delete.LogicalDelete</a> trait
+is simple as calling <code>delete()</code>. This will mark the <code>deleted</code> field to <code>true</code> and all queries for that domain object will
+hide the item from its result set.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">compile "org.grails.plugins:gorm-logical-delete:2.0.0.BUILD-SNAPSHOT"</code></pre>
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">Person p = new Person(userName: "Nirav").save(flush: true)
+p.delete(flush:true)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In order to reverse the <code>deleted</code> field use <code>unDelete()</code>. . .</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">p.unDelete(flush: true)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you would like to physically delete the record from persistence, use the attribute <code>hard: true</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">p.delete(hard: true)</code></pre>
 </div>
 </div>
 </div>
