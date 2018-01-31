@@ -20,6 +20,7 @@ class CriteriaSpec extends Specification implements DomainUnitTest<Person>, Pers
         assert Person.count() == 3
         Person.findByUserName("Ben").delete()
         Person.findByUserName("Nirav").delete()
+        // tag::criteria_query[]
         def criteria = Person.createCriteria()
         def results = criteria {
             or {
@@ -27,6 +28,7 @@ class CriteriaSpec extends Specification implements DomainUnitTest<Person>, Pers
                 eq("userName", "Nirav")
             }
         }
+        // end::criteria_query[]
 
         then: "we should not get anything bc they were deleted"
         !results

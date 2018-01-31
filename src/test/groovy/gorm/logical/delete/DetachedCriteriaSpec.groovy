@@ -21,11 +21,12 @@ class DetachedCriteriaSpec extends Specification implements DomainUnitTest<Perso
         assert Person.count() == 3
         Person.findByUserName("Ben").delete()
         Person.findByUserName("Nirav").delete()
+        // tag::detachedCriteria_query[]
         DetachedCriteria<Person> query = Person.where {
             userName == "Ben" || userName == "Nirav"
         }
         def results = query.list()
-
+        // end::detachedCriteria_query[]
         then: "we should not get anything bc they were deleted"
         !results
 

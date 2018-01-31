@@ -15,9 +15,21 @@ include::installation.ad[]
 
 include::logicalDeleteTrait.ad[]
 
+== Deleting Objects
+
+include::deletingObjects.ad[]
+
 == Queries
 
 include::queries.ad[]
+
+== WithDeleted Annotation
+
+include::withDeletedAnnotation.ad[]
+
+== Implementation Annotation
+
+include::implementation.ad[]
 
 == API Documentation
 

@@ -46,6 +46,7 @@ class GormDataServiceWithDeletedTransformationSpec extends Specification impleme
     }
 }
 
+// tag::personService[]
 @Service(Person)
 interface PersonService {
 
@@ -56,3 +57,4 @@ interface PersonService {
 
     void delete(Serializable id)
 }
+// end::personService[]
