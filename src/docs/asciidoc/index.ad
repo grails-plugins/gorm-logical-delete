@@ -27,7 +27,7 @@ include::queries.ad[]
 
 include::withDeletedAnnotation.ad[]
 
-== Implementation Annotation
+== Implementation Details
 
 include::implementation.ad[]
 
