@@ -41,6 +41,14 @@ class PreQueryListener implements ApplicationListener<PreQueryEvent> {
                     query.eq('deleted', false)
                 }
             }
+
+            if (DateLogicalDelete.isAssignableFrom(entity.javaClass) || StringLogicalDelete.isAssignableFrom(entity.javaClass)) {
+                log.debug "This entity [${entity.javaClass}] implements logical delete"
+
+                if (!IGNORE_DELETED_FILTER.get()) {
+                    query.eq('deleted', null)
+                }
+            }
         } catch (Exception e) {
             log.error(e.message)
         }
