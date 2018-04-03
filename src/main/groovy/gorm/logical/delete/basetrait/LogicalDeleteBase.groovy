@@ -1,14 +1,23 @@
-package gorm.logical.delete
+package gorm.logical.delete.basetrait
 
 import grails.gorm.DetachedCriteria
+import groovy.transform.CompileStatic
 import org.grails.datastore.gorm.GormEnhancer
-import org.grails.datastore.gorm.GormEntity
 import org.grails.datastore.gorm.GormStaticApi
 
 import static gorm.logical.delete.PreQueryListener.IGNORE_DELETED_FILTER
 
-trait DateLogicalDelete<D> extends GormEntity<D> {
-    Date deleted = null
+@CompileStatic
+trait LogicalDeleteBase<D> {
+    static def deletedValue = null
+
+    static void setDeletedValue(final newDeletedValue) {
+        deletedValue = newDeletedValue
+    }
+
+    static returnDeletedValue() {
+        deletedValue
+    }
 
     static Object withDeleted(Closure closure) {
         final initialThreadLocalValue = IGNORE_DELETED_FILTER.get()
@@ -26,7 +35,7 @@ trait DateLogicalDelete<D> extends GormEntity<D> {
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
-                eq 'deleted', null
+                eq 'deleted', deletedValue
             }.get()
         }
     }
@@ -37,7 +46,7 @@ trait DateLogicalDelete<D> extends GormEntity<D> {
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
-                eq 'deleted', null
+                eq 'deleted', deletedValue
             }.get()
         }
     }
@@ -48,7 +57,7 @@ trait DateLogicalDelete<D> extends GormEntity<D> {
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
-                eq 'deleted', null
+                eq 'deleted', deletedValue
             }.get()
         }
     }
@@ -59,39 +68,9 @@ trait DateLogicalDelete<D> extends GormEntity<D> {
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
-                eq 'deleted', null
+                eq 'deleted', deletedValue
             }.get()
         }
-    }
-
-    void delete() {
-        final Date date = new Date()
-        this.markDirty('deleted', date, null)
-        this.deleted = date
-        save()
-    }
-
-    void delete(Map params) {
-        if (params?.hard) {
-            super.delete(params)
-        } else {
-            final Date date = new Date()
-            this.markDirty('deleted', date, null)
-            this.deleted = date
-            save(params)
-        }
-    }
-
-    void unDelete() {
-        this.markDirty('deleted', null)
-        this.deleted = null
-        save()
-    }
-
-    void unDelete(Map params) {
-        this.markDirty('deleted', null)
-        this.deleted = null
-        save(params)
     }
 
     /** ============================================================================================

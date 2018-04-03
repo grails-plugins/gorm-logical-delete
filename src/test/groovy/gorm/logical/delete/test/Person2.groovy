@@ -1,6 +1,6 @@
 package gorm.logical.delete.test
 
-import gorm.logical.delete.DateLogicalDelete
+import gorm.logical.delete.typetrait.DateLogicalDelete
 import grails.gorm.annotation.Entity
 
 @Entity

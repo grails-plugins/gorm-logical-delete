@@ -1,10 +1,10 @@
 package gorm.logical.delete.test
 
-import gorm.logical.delete.typetrait.StringLogicalDelete
+import gorm.logical.delete.typetrait.BooleanLogicalDelete
 import grails.gorm.annotation.Entity
 
 @Entity
-class Person3 implements StringLogicalDelete<Person3> {
+class Person4 implements BooleanLogicalDelete<Person4> {
     String userName
 
     static mapping = {

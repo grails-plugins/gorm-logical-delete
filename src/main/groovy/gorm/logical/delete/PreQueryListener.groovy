@@ -15,6 +15,7 @@
  */
 package gorm.logical.delete
 
+import gorm.logical.delete.basetrait.LogicalDeleteBase
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.datastore.mapping.model.PersistentEntity
@@ -34,6 +35,7 @@ class PreQueryListener implements ApplicationListener<PreQueryEvent> {
             Query query = event.query
             PersistentEntity entity = query.entity
 
+            /** boolean primitive logical delete (false means not deleted) */
             if (LogicalDelete.isAssignableFrom(entity.javaClass)) {
                 log.debug "This entity [${entity.javaClass}] implements logical delete"
 
@@ -42,7 +44,9 @@ class PreQueryListener implements ApplicationListener<PreQueryEvent> {
                 }
             }
 
-            if (DateLogicalDelete.isAssignableFrom(entity.javaClass) || StringLogicalDelete.isAssignableFrom(entity.javaClass)) {
+            /** Date, String, Boolean logical delete (null means not deleted) */
+            //if (DateLogicalDelete.isAssignableFrom(entity.javaClass) || StringLogicalDelete.isAssignableFrom(entity.javaClass) || BooleanLogicalDelete.isAssignableFrom(entity.javaClass)) {
+            if(LogicalDeleteBase.isAssignableFrom(entity.javaClass)) {
                 log.debug "This entity [${entity.javaClass}] implements logical delete"
 
                 if (!IGNORE_DELETED_FILTER.get()) {
