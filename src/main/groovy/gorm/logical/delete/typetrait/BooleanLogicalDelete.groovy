@@ -1,8 +1,10 @@
 package gorm.logical.delete.typetrait
 
 import gorm.logical.delete.basetrait.LogicalDeleteBase
+import groovy.transform.CompileStatic
 import org.grails.datastore.gorm.GormEntity
 
+@CompileStatic
 trait BooleanLogicalDelete<D> implements GormEntity<D>, LogicalDeleteBase<D> {
     Boolean deleted = null
 
