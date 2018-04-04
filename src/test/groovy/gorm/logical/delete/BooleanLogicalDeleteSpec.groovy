@@ -13,7 +13,7 @@ class BooleanLogicalDeleteSpec extends Specification implements DomainUnitTest<P
     @Rollback
     void 'test logical delete flush - get'() {
         when:
-        Person4 p = (Person4) Person4.get(1)
+        Person4 p = Person4.get(1)
 
         then:
         !p.deleted

@@ -6,9 +6,9 @@ import org.grails.datastore.gorm.GormEntity
 trait BooleanLogicalDelete<D> implements GormEntity<D>, LogicalDeleteBase<D> {
     Boolean deleted = null
 
-    void delete() {
-        this.markDirty('deleted', true, null)
-        this.deleted = true
+    void delete(Boolean newValue = Boolean.TRUE) {
+        this.markDirty('deleted', newValue, this.deleted)
+        this.deleted = newValue
         save()
     }
 
@@ -16,21 +16,21 @@ trait BooleanLogicalDelete<D> implements GormEntity<D>, LogicalDeleteBase<D> {
         if (params?.hard) {
             super.delete(params)
         } else {
-            this.markDirty('deleted', true, null)
-            this.deleted = true
+            this.markDirty('deleted', params?.newValue, this.deleted)
+            this.deleted = (Boolean) params?.newValue ?: Boolean.TRUE
             save(params)
         }
     }
 
     void unDelete() {
-        this.markDirty('deleted', null, true)
+        this.markDirty('deleted', null, this.deleted)
         this.deleted = null
         save()
     }
 
     void unDelete(Map params) {
-        this.markDirty('deleted', null, true)
-        this.deleted = null
+        this.markDirty('deleted', params?.newValue, this.deleted)
+        this.deleted = (Boolean) params?.newValue ?: null
         save(params)
     }
 }

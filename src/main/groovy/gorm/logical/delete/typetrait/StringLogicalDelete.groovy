@@ -8,8 +8,8 @@ import org.grails.datastore.gorm.GormEntity
 trait StringLogicalDelete<D> implements GormEntity<D>, LogicalDeleteBase<D> {
     String deleted = null
 
-    void delete(String newValue) {
-        this.markDirty('deleted', newValue, null)
+    void delete(String newValue = 'deleted') {
+        this.markDirty('deleted', newValue, this.deleted)
         this.deleted = newValue
         save()
     }
@@ -18,21 +18,21 @@ trait StringLogicalDelete<D> implements GormEntity<D>, LogicalDeleteBase<D> {
         if (params?.hard) {
             super.delete(params)
         } else {
-            this.markDirty('deleted', params?.newValue, null)
-            this.deleted = (String) params?.newValue
+            this.markDirty('deleted', params?.newValue, this.deleted)
+            this.deleted = (String) params?.newValue ?: 'deleted'
             save(params)
         }
     }
 
     void unDelete() {
-        this.markDirty('deleted', null,)
+        this.markDirty('deleted', null, this.deleted)
         this.deleted = null
         save()
     }
 
     void unDelete(Map params) {
-        this.markDirty('deleted', null)
-        this.deleted = null
+        this.markDirty('deleted', params?.newValue, this.deleted)
+        this.deleted = (String) params?.newValue ?: null
         save(params)
     }
 }

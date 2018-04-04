@@ -28,6 +28,23 @@ class StringLogicalDeleteSpec extends Specification implements DomainUnitTest<Pe
     }
 
     @Rollback
+    void 'test logical delete flush - get when default value is used'() {
+        when:
+        Person3 p = Person3.get(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete(flush:true)
+        p.discard()
+        p = Person3.withDeleted { Person3.get(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
     void 'test logical delete - get'() {
         when:
         Person3 p = Person3.get(1)
@@ -37,6 +54,22 @@ class StringLogicalDeleteSpec extends Specification implements DomainUnitTest<Pe
 
         when:
         p.delete('test')
+        p = Person3.withDeleted { Person3.get(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete - get when default value is used'() {
+        when:
+        Person3 p = Person3.get(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete()
         p = Person3.withDeleted { Person3.get(1) }
 
         then:
@@ -79,6 +112,23 @@ class StringLogicalDeleteSpec extends Specification implements DomainUnitTest<Pe
     }
 
     @Rollback
+    void 'test logical delete flush - load when default is used'() {
+        when:
+        Person3 p = Person3.load(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete(flush:true)
+        p.discard()
+        p = Person3.withDeleted { Person3.load(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
     void 'test logical delete - load'() {
         when:
         Person3 p = Person3.load(1)
@@ -88,6 +138,22 @@ class StringLogicalDeleteSpec extends Specification implements DomainUnitTest<Pe
 
         when:
         p.delete('test')
+        p = Person3.withDeleted { Person3.load(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete - load when default is used'() {
+        when:
+        Person3 p = Person3.load(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete()
         p = Person3.withDeleted { Person3.load(1) }
 
         then:
@@ -130,6 +196,23 @@ class StringLogicalDeleteSpec extends Specification implements DomainUnitTest<Pe
     }
 
     @Rollback
+    void 'test logical delete flush - proxy when default is used'() {
+        when:
+        Person3 p = Person3.proxy(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete(flush:true)
+        p.discard()
+        p = Person3.withDeleted { Person3.proxy(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
     void 'test logical delete - proxy'() {
         when:
         Person3 p = Person3.proxy(1)
@@ -139,6 +222,22 @@ class StringLogicalDeleteSpec extends Specification implements DomainUnitTest<Pe
 
         when:
         p.delete('test')
+        p = Person3.withDeleted { Person3.proxy(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete - proxy when default is used'() {
+        when:
+        Person3 p = Person3.proxy(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete()
         p = Person3.withDeleted { Person3.proxy(1) }
 
         then:
@@ -181,6 +280,23 @@ class StringLogicalDeleteSpec extends Specification implements DomainUnitTest<Pe
     }
 
     @Rollback
+    void 'test logical delete flush - read when default is used'() {
+        when:
+        Person3 p = Person3.read(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete(flush:true)
+        p.discard()
+        p = Person3.withDeleted { Person3.read(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
     void 'test logical delete - read'() {
         when:
         Person3 p = Person3.read(1)
@@ -190,6 +306,22 @@ class StringLogicalDeleteSpec extends Specification implements DomainUnitTest<Pe
 
         when:
         p.delete('test')
+        p = Person3.withDeleted { Person3.read(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete - read when default is used'() {
+        when:
+        Person3 p = Person3.read(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete()
         p = Person3.withDeleted { Person3.read(1) }
 
         then:

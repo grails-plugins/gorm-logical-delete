@@ -19,6 +19,23 @@ class DateLogicalDeleteSpec extends Specification implements DomainUnitTest<Pers
         !p.deleted
 
         when:
+        p.delete(newValue: new Date(), flush:true)
+        p.discard()
+        p = Person2.withDeleted { Person2.get(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete flush - get with default'() {
+        when:
+        Person2 p = Person2.get(1)
+
+        then:
+        !p.deleted
+
+        when:
         p.delete(flush:true)
         p.discard()
         p = Person2.withDeleted { Person2.get(1) }
@@ -29,6 +46,22 @@ class DateLogicalDeleteSpec extends Specification implements DomainUnitTest<Pers
 
     @Rollback
     void 'test logical delete - get'() {
+        when:
+        Person2 p = Person2.get(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete(new Date())
+        p = Person2.withDeleted { Person2.get(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete - get with default'() {
         when:
         Person2 p = Person2.get(1)
 
@@ -70,6 +103,23 @@ class DateLogicalDeleteSpec extends Specification implements DomainUnitTest<Pers
         !p.deleted
 
         when:
+        p.delete(newValue: new Date(), flush:true)
+        p.discard()
+        p = Person2.withDeleted { Person2.load(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete flush - load with default'() {
+        when:
+        Person2 p = Person2.load(1)
+
+        then:
+        !p.deleted
+
+        when:
         p.delete(flush:true)
         p.discard()
         p = Person2.withDeleted { Person2.load(1) }
@@ -80,6 +130,22 @@ class DateLogicalDeleteSpec extends Specification implements DomainUnitTest<Pers
 
     @Rollback
     void 'test logical delete - load'() {
+        when:
+        Person2 p = Person2.load(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete(new Date())
+        p = Person2.withDeleted { Person2.load(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete - load with default'() {
         when:
         Person2 p = Person2.load(1)
 
@@ -121,6 +187,23 @@ class DateLogicalDeleteSpec extends Specification implements DomainUnitTest<Pers
         !p.deleted
 
         when:
+        p.delete(newValue: new Date(), flush:true)
+        p.discard()
+        p = Person2.withDeleted { Person2.proxy(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete flush - proxy with default'() {
+        when:
+        Person2 p = Person2.proxy(1)
+
+        then:
+        !p.deleted
+
+        when:
         p.delete(flush:true)
         p.discard()
         p = Person2.withDeleted { Person2.proxy(1) }
@@ -131,6 +214,22 @@ class DateLogicalDeleteSpec extends Specification implements DomainUnitTest<Pers
 
     @Rollback
     void 'test logical delete - proxy'() {
+        when:
+        Person2 p = Person2.proxy(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete(new Date())
+        p = Person2.withDeleted { Person2.proxy(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete - proxy with default'() {
         when:
         Person2 p = Person2.proxy(1)
 
@@ -172,6 +271,23 @@ class DateLogicalDeleteSpec extends Specification implements DomainUnitTest<Pers
         !p.deleted
 
         when:
+        p.delete(newValue: new Date(), flush:true)
+        p.discard()
+        p = Person2.withDeleted { Person2.read(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete flush - read with default'() {
+        when:
+        Person2 p = Person2.read(1)
+
+        then:
+        !p.deleted
+
+        when:
         p.delete(flush:true)
         p.discard()
         p = Person2.withDeleted { Person2.read(1) }
@@ -182,6 +298,22 @@ class DateLogicalDeleteSpec extends Specification implements DomainUnitTest<Pers
 
     @Rollback
     void 'test logical delete - read'() {
+        when:
+        Person2 p = Person2.read(1)
+
+        then:
+        !p.deleted
+
+        when:
+        p.delete(new Date())
+        p = Person2.withDeleted { Person2.read(1) }
+
+        then:
+        p.deleted
+    }
+
+    @Rollback
+    void 'test logical delete - read with default'() {
         when:
         Person2 p = Person2.read(1)
 
