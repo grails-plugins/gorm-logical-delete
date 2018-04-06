@@ -17,3 +17,5 @@ class Person4 implements BooleanLogicalDelete<Person4> {
         deleted nullable: true
     }
 }
+
+//test comment
