@@ -48,3 +48,7 @@ include::{projectdir}/src/test/groovy/gorm/logical/delete/DetachedCriteriaSpec.g
 The standard `GormEntity<D>` methods of `get`, `load`, `proxy`, `read` are also supported for logical delete.
 
 WARNING: Hibernate Criteria and HQL queries are NOT supported by this plugin.
+
+=== GORM Dataservices
+
+GORM Dataservices are supported for logical delete.
