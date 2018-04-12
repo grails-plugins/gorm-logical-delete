@@ -528,6 +528,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_criteria_query">5.1. Criteria Query</a></li>
 <li><a href="#_detached_criteria_query">5.2. Detached Criteria Query</a></li>
 <li><a href="#_gorm_methods">5.3. GORM methods</a></li>
+<li><a href="#_gorm_dataservices">5.4. GORM Dataservices</a></li>
 </ul>
 </li>
 <li><a href="#_withdeleted_annotation">6. WithDeleted Annotation</a></li>
@@ -567,6 +568,15 @@ set of active data.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">compile "org.grails.plugins:gorm-logical-delete:2.0.0.BUILD-SNAPSHOT"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Snapshots are now published automatically to Artifactory OSS on every successful build. You can use them by defining this
+Maven repository inside the repositories block in your <code>build.gradle</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local" }</code></pre>
 </div>
 </div>
 </div>
@@ -712,6 +722,12 @@ Hibernate Criteria and HQL queries are NOT supported by this plugin.
 </table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_gorm_dataservices">5.4. GORM Dataservices</h3>
+<div class="paragraph">
+<p>GORM Dataservices are supported for logical delete.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -777,7 +793,7 @@ appropriately adds to the existing query in order to hide deleted items.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-01-31 21:55:32 +00:00
+Last updated 2018-04-12 19:29:04 +00:00
 </div>
 </div>
 </body>

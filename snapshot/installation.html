@@ -434,10 +434,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <pre class="highlight"><code class="language-groovy" data-lang="groovy">compile "org.grails.plugins:gorm-logical-delete:2.0.0.BUILD-SNAPSHOT"</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Snapshots are now published automatically to Artifactory OSS on every successful build. You can use them by defining this
+Maven repository inside the repositories block in your <code>build.gradle</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local" }</code></pre>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-01-31 21:55:32 +00:00
+Last updated 2018-04-12 19:29:04 +00:00
 </div>
 </div>
 </body>
