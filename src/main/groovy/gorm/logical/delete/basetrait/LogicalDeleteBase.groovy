@@ -9,7 +9,7 @@ import static gorm.logical.delete.PreQueryListener.IGNORE_DELETED_FILTER
 
 @CompileStatic
 trait LogicalDeleteBase<D> {
-    static def deletedValue = null
+    static deletedValue = null
 
     static void setDeletedValue(final newDeletedValue) {
         deletedValue = newDeletedValue
@@ -77,6 +77,6 @@ trait LogicalDeleteBase<D> {
      * Private Methods:
      * ============================================================================================= */
     private static GormStaticApi<D> currentGormStaticApi() {
-        (GormStaticApi<D>)GormEnhancer.findStaticApi(this)
+        (GormStaticApi<D>) GormEnhancer.findStaticApi(this)
     }
 }

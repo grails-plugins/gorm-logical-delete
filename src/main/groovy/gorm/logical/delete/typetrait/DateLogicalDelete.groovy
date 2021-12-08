@@ -18,7 +18,6 @@ trait DateLogicalDelete<D> implements GormEntity<D>, LogicalDeleteBase<D> {
         if (params?.hard) {
             super.delete(params)
         } else {
-            final Date date = new Date()
             this.markDirty('deleted', params?.newValue, this.deleted)
             this.deleted = (Date) params?.newValue ?: new Date()
             save(params)
