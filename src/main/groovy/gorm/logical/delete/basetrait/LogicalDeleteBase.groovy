@@ -1,31 +1,23 @@
-/*
- * Copyright 2017 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package gorm.logical.delete
+package gorm.logical.delete.basetrait
 
 import grails.gorm.DetachedCriteria
 import groovy.transform.CompileStatic
 import org.grails.datastore.gorm.GormEnhancer
-import org.grails.datastore.gorm.GormEntity
 import org.grails.datastore.gorm.GormStaticApi
 
 import static gorm.logical.delete.PreQueryListener.IGNORE_DELETED_FILTER
 
 @CompileStatic
-trait LogicalDelete<D> extends GormEntity<D> {
-    boolean deleted = false
+trait LogicalDeleteBase<D> {
+    static deletedValue = null
+
+    static void setDeletedValue(final newDeletedValue) {
+        deletedValue = newDeletedValue
+    }
+
+    static returnDeletedValue() {
+        deletedValue
+    }
 
     static Object withDeleted(Closure closure) {
         final initialThreadLocalValue = IGNORE_DELETED_FILTER.get()
@@ -43,7 +35,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
-                eq 'deleted', false
+                eq 'deleted', deletedValue
             }.get()
         }
     }
@@ -54,7 +46,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
-                eq 'deleted', false
+                eq 'deleted', deletedValue
             }.get()
         }
     }
@@ -65,7 +57,7 @@ trait LogicalDelete<D> extends GormEntity<D> {
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
-                eq 'deleted', false
+                eq 'deleted', deletedValue
             }.get()
         }
     }
@@ -76,43 +68,15 @@ trait LogicalDelete<D> extends GormEntity<D> {
         } else {
             new DetachedCriteria(this).build {
                 eq 'id', id
-                eq 'deleted', false
+                eq 'deleted', deletedValue
             }.get()
         }
-    }
-
-    void delete() {
-        this.markDirty('deleted', true, false)
-        this.deleted = true
-        save()
-    }
-
-    void delete(Map params) {
-        if (params?.hard) {
-            super.delete(params)
-        } else {
-            this.markDirty('deleted', true, false)
-            this.deleted = true
-            save(params)
-        }
-    }
-
-    void unDelete() {
-        this.markDirty('deleted', false, true)
-        this.deleted = false
-        save()
-    }
-
-    void unDelete(Map params) {
-        this.markDirty('deleted', false, true)
-        this.deleted = false
-        save(params)
     }
 
     /** ============================================================================================
      * Private Methods:
      * ============================================================================================= */
     private static GormStaticApi<D> currentGormStaticApi() {
-        (GormStaticApi<D>)GormEnhancer.findStaticApi(this)
+        (GormStaticApi<D>) GormEnhancer.findStaticApi(this)
     }
 }
